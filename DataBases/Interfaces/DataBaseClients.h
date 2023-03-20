@@ -9,6 +9,7 @@ class DataBaseClients {
  public:
 
   DataBaseClients() = default;
+  virtual ~DataBaseClients() = default;
 
   DataBaseClients(const DataBaseClients&) = delete;
   void operator=(const DataBaseClients&) = delete;

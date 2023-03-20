@@ -11,6 +11,7 @@ class DataBaseAccounts {
  public:
 
   DataBaseAccounts() = default;
+  virtual ~DataBaseAccounts() = default;
 
   DataBaseAccounts(const DataBaseAccounts&) = delete;
   void operator=(const DataBaseAccounts&) = delete;
@@ -19,7 +20,7 @@ class DataBaseAccounts {
   virtual void WriteAccounts(const std::string& bank_name, size_t user_id, const std::vector<Account*>& accounts) = 0;
   virtual void DeleteClientAccounts(const std::string& bank_name, size_t user_id) = 0;
   virtual Account* GetAccount(const std::string& bank_name, size_t user_id, size_t account_id) = 0;
-  virtual const std::vector<Account*>& GetUserAccounts(const std::string& bank_name, size_t user_id) = 0;
+  virtual std::vector<Account*> GetUserAccounts(const std::string& bank_name, size_t user_id) = 0;
 
 };
 

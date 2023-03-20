@@ -2,6 +2,7 @@
 #define BANK_SYSTEM_DATABASES_VECTORDBBANKS_H_
 
 
+#include <unordered_map>
 #include <vector>
 
 #include "DataBaseBanks.h"

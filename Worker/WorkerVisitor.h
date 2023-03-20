@@ -3,6 +3,8 @@
 
 
 #include "../Bank/Bank.h"
+#include "../Request/Request.h"
+#include "Logger.h"
 #include "WorkerVisitorInterface.h"
 #include "Worker.h"
 
@@ -14,9 +16,9 @@ class WorkerVisitor : public WorkerVisitorInterface {
 
  public:
 
-  WorkerVisitor() = default;
+  //WorkerVisitor() = default;
 
-  bool MakeVisit(const std::string& bank_name, const Worker& worker, size_t password) override {
+  bool MakeVisit(const std::string& bank_name, const Worker& worker, int64_t password) override {
     if (worker.CheckPassword(password)) {
       worker_ = worker;
       in_ = true;
@@ -27,20 +29,31 @@ class WorkerVisitor : public WorkerVisitorInterface {
     in_ = false;
   }
   void CheckOldestRequest(Show* out) override {
-    /// Open file 'requests.txt' and print last request, then delete it from the file
+    Request last = Request::ReadLastRequest(bank_name_);
+    out->Output(static_cast<int64_t>(last.user_id));
+    out->Output(last.text);
   }
-  void BlockUser(const std::string& bank_name, size_t user_id) override {
-    Client client = Bank::clients->GetCLient(bank_name, user_id);
+  bool BlockUser(const std::string& bank_name, size_t user_id, DataBaseClients* clients) override {
+    Client client = clients->GetCLient(bank_name, user_id);
+    if (client == Client()) {
+      return false;
+    }
     client.ChangeStatus(true);
-    Bank::clients->WriteClient(bank_name, client);
+    clients->WriteClient(bank_name, client);
+    return true;
   }
-  bool RestoreUser(const std::string& bank_name, size_t user_id) override {
-    Client client = Bank::clients->GetCLient(bank_name, user_id);
+  bool RestoreUser(const std::string& bank_name, size_t user_id, DataBaseClients* clients) override {
+    Client client = clients->GetCLient(bank_name, user_id);
+    if (client == Client()) {
+      return false;
+    }
     client.ChangeStatus();
-    Bank::clients->WriteClient(bank_name, client);
+    clients->WriteClient(bank_name, client);
+    return true;
   }
-  virtual bool CancelTransaction(const std::string& bank_name, size_t send_user_id, size_t get_user_id, int64_t money_transaction) {
+  bool CancelTransaction(const std::string& bank_name, size_t send_user_id, size_t get_user_id, int64_t money_transaction) override {
     /// just read the 'log.txt' and delete if found
+    return false;
   }
 
 

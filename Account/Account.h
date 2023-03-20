@@ -27,7 +27,7 @@ struct Date {
     year_ += month_ / (YEAR + 1);
     (month_ %= (YEAR + 1)) += 1;
 
-    assert(year_ >= 0 && month_ >= 0 && day_ >= 0);
+    //assert(year_ >= 0 && month_ >= 0 && day_ >= 0);
   }
 
   int GetYear() const { return year_; }

@@ -4,13 +4,6 @@
 
 #include <iostream>
 
-struct Request {
-  std::string bank_name;
-  std::string user_id;
-  std::string text;
-};
-
-
 class Worker {
 
   size_t worker_id_;

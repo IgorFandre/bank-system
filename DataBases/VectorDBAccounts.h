@@ -2,8 +2,7 @@
 #define BANK_SYSTEM_DATABASES_VECTORDBACCOUNTS_H_
 
 
-////// Rewrite не написан, но нужен ли он ?
-
+#include <unordered_map>
 #include <vector>
 
 #include "DataBaseAccounts.h"
@@ -41,7 +40,11 @@ class VectorDBAccounts : public DataBaseAccounts {
     }
     return nullptr;
   }
-  const std::vector<Account*>& GetUserAccounts(const std::string& bank_name, size_t user_id) override {
+  std::vector<Account*> GetUserAccounts(const std::string& bank_name, size_t user_id) override {
+    if (accounts_[bank_name].contains(user_id)) {
+      return accounts_[bank_name][user_id];
+    }
+    accounts_[bank_name][user_id] = {};
     return accounts_[bank_name][user_id];
   }
 
