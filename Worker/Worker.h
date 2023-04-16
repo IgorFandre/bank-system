@@ -1,15 +1,6 @@
-#ifndef BANK_SYSTEM_WORKER_WORKER_H_
-#define BANK_SYSTEM_WORKER_WORKER_H_
-
+#pragma once
 
 #include <iostream>
-
-struct Request {
-  std::string bank_name;
-  std::string user_id;
-  std::string text;
-};
-
 
 class Worker {
 
@@ -18,14 +9,11 @@ class Worker {
 
  public:
 
-  Worker(size_t worker_id, int64_t worker_password)
-        : worker_id_{worker_id}, worker_password_{worker_password}
-  {}
+  Worker(size_t worker_id, int64_t worker_password);
 
-  bool CheckPassword(int64_t password) const { return worker_password_ == password; }
-  size_t GetId() const { return worker_id_; }
+  [[nodiscard]] bool CheckPassword(int64_t password) const;
+
+  [[nodiscard]] inline size_t GetId() const { return worker_id_; }
+  [[nodiscard]] inline int64_t GetPassword() const { return worker_password_; }
 
 };
-
-
-#endif //BANK_SYSTEM_WORKER_WORKER_H_

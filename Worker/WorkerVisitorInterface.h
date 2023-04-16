@@ -1,6 +1,4 @@
-#ifndef BANK_SYSTEM_WORKER_WORKERVISITORINTERFACE_H_
-#define BANK_SYSTEM_WORKER_WORKERVISITORINTERFACE_H_
-
+#pragma once
 
 #include <iostream>
 
@@ -11,14 +9,15 @@ class WorkerVisitorInterface {
 
  public:
 
-  virtual bool MakeVisit(const std::string& bank_name, const Worker& worker, size_t password) = 0;
-  virtual void Exit() = 0;
-  virtual void CheckOldestRequest(Show* out) = 0;
-  virtual void BlockUser(const std::string& bank_name, size_t user_id) = 0;
-  virtual bool RestoreUser(const std::string& bank_name, size_t user_id) = 0;
-  virtual bool CancelTransaction(const std::string& bank_name, size_t send_user_id, size_t get_user_id, int64_t money_transaction) = 0;
+  WorkerVisitorInterface() = default;
+  virtual ~WorkerVisitorInterface() = default;
+
+  virtual bool MakeVisit(const std::string& bank_name, const Worker& worker, int64_t password) = 0;
+  virtual void Exit(const Date& system_date) = 0;
+  virtual void CheckOldestRequest(std::unique_ptr<Show>& out, const Date& system_date) = 0;
+  virtual bool BlockUser(size_t user_id, std::unique_ptr<DataBaseClients>& clients, const Date& system_date) = 0;
+  virtual bool RestoreUser(size_t user_id, std::unique_ptr<DataBaseClients>& clients, const Date& system_date) = 0;
+  virtual bool CancelTransaction(size_t cl_id_1, size_t acc_id_1, size_t cl_id_2, size_t acc_id_2, int64_t money,
+                                 std::unique_ptr<DataBaseAccounts>& accounts, const Date& system_date) = 0;
 
 };
-
-
-#endif //BANK_SYSTEM_WORKER_WORKERVISITORINTERFACE_H_

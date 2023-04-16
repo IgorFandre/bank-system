@@ -1,18 +1,17 @@
-#ifndef BANK_SYSTEM_ACCOUNT_ACCOUNTFABRIC_H_
-#define BANK_SYSTEM_ACCOUNT_ACCOUNTFABRIC_H_
-
+#pragma once
 
 #include "Account.h"
 #include "CreditAccount.h"
 #include "DebitAccount.h"
-#include "DepositeAccount.h"
+#include "DepositAccount.h"
 
 class AccountFabric {
 
  public:
 
-  AccountFabric() {}
-  virtual Account* MakeAccount(size_t id, int64_t money) = 0;
+  AccountFabric() = default;
+  virtual ~AccountFabric() = default;
+  virtual Account* MakeAccount(size_t id, int64_t money, const Date& system_date) = 0;
 
 };
 
@@ -24,12 +23,9 @@ class CreditFabric : public AccountFabric {
 
  public:
 
-  CreditFabric(int64_t credit_limit, int64_t bank_fee)
-        : credit_limit_{credit_limit}, bank_fee_{bank_fee}
-  {}
-  Account* MakeAccount(size_t id, int64_t money) override {
-    return new CreditAccount(id, money, credit_limit_, bank_fee_);
-  }
+  CreditFabric(int64_t credit_limit, int64_t bank_fee);
+  ~CreditFabric() override = default;
+  Account* MakeAccount(size_t id, int64_t money, const Date& system_date) override;
 
 };
 
@@ -38,26 +34,21 @@ class DebitFabric : public AccountFabric {
 
  public:
 
-  DebitFabric() {}
-  Account* MakeAccount(size_t id, int64_t money) override {
-    return new DebitAccount(id, money);
-  }
+  DebitFabric() = default;
+  ~DebitFabric() override = default;
+  Account* MakeAccount(size_t id, int64_t money, const Date& system_date) override;
 
 };
 
 
-class DepositeFabric : public AccountFabric {
+class DepositFabric : public AccountFabric {
 
   Date finish_;
 
  public:
 
-  DepositeFabric(const Date& finish) : finish_{finish} {}
-  Account* MakeAccount(size_t id, int64_t money) {
-    return new DepositeAccount(id, money, finish_);
-  }
+  explicit DepositFabric(const Date& finish);
+  ~DepositFabric() override = default;
+  Account* MakeAccount(size_t id, int64_t money, const Date& system_date) override;
 
 };
-
-
-#endif //BANK_SYSTEM_ACCOUNT_ACCOUNTFABRIC_H_

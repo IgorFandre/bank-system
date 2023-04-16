@@ -1,9 +1,7 @@
-#ifndef BANK_SYSTEM_DATABASES_VECTORDBCLIENTS_H_
-#define BANK_SYSTEM_DATABASES_VECTORDBCLIENTS_H_
+#pragma once
 
-
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 #include "DataBaseClients.h"
 
@@ -20,7 +18,7 @@ class VectorDBClients : public DataBaseClients {
     clients_[bank_name][client.GetID()] = client;
   }
   void WriteClients(const std::string& bank_name, const std::vector<Client>& clients) override {
-    for (auto client : clients) {
+    for (const auto& client : clients) {
       clients_[bank_name][client.GetID()] = client;
     }
   }
@@ -29,14 +27,14 @@ class VectorDBClients : public DataBaseClients {
       clients_[bank_name].erase(user_id);
     }
   }
-  Client GetCLient(const std::string& bank_name, size_t user_id) override {
-    return clients_[bank_name][user_id];
+  Client* GetClient(const std::string& bank_name, size_t user_id) override {
+    return new Client(clients_[bank_name][user_id]);
   }
-  std::vector<Client> GetAllClients(const std::string& bank_name) override {
-    std::vector<Client> clients(clients_[bank_name].size());
+  std::vector<Client*> GetAllClients(const std::string& bank_name) override {
+    std::vector<Client*> clients(clients_[bank_name].size());
     size_t i = 0;
-    for (auto elem : clients_[bank_name]) {
-      clients[i++] = elem.second;
+    for (const auto& elem : clients_[bank_name]) {
+      clients[i++] = new Client(elem.second);
     }
     return clients;
   }
@@ -46,6 +44,3 @@ class VectorDBClients : public DataBaseClients {
   std::unordered_map<std::string, std::unordered_map<size_t, Client>> clients_;
 
 };
-
-
-#endif //BANK_SYSTEM_DATABASES_VECTORDBCLIENTS_H_

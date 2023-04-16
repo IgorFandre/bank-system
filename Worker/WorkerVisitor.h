@@ -1,8 +1,8 @@
-#ifndef BANK_SYSTEM_WORKER_WORKERVISITOR_H_
-#define BANK_SYSTEM_WORKER_WORKERVISITOR_H_
-
+#pragma once
 
 #include "../Bank/Bank.h"
+#include "../Request/Request.h"
+#include "../Logger/Logger.h"
 #include "WorkerVisitorInterface.h"
 #include "Worker.h"
 
@@ -14,38 +14,14 @@ class WorkerVisitor : public WorkerVisitorInterface {
 
  public:
 
-  WorkerVisitor() = default;
+  WorkerVisitor();
 
-  bool MakeVisit(const std::string& bank_name, const Worker& worker, size_t password) override {
-    if (worker.CheckPassword(password)) {
-      worker_ = worker;
-      in_ = true;
-    }
-    return in_;
-  }
-  void Exit() override {
-    in_ = false;
-  }
-  void CheckOldestRequest(Show* out) override {
-    /// Open file 'requests.txt' and print last request, then delete it from the file
-  }
-  void BlockUser(const std::string& bank_name, size_t user_id) override {
-    Client client = Bank::clients->GetCLient(bank_name, user_id);
-    client.ChangeStatus(true);
-    Bank::clients->WriteClient(bank_name, client);
-  }
-  bool RestoreUser(const std::string& bank_name, size_t user_id) override {
-    Client client = Bank::clients->GetCLient(bank_name, user_id);
-    client.ChangeStatus();
-    Bank::clients->WriteClient(bank_name, client);
-  }
-  virtual bool CancelTransaction(const std::string& bank_name, size_t send_user_id, size_t get_user_id, int64_t money_transaction) {
-    /// just read the 'log.txt' and delete if found
-  }
-
-
+  bool MakeVisit(const std::string& bank_name, const Worker& worker, int64_t password) override;
+  void Exit(const Date& system_date) override;
+  void CheckOldestRequest(std::unique_ptr<Show>& out, const Date& system_date) override;
+  bool BlockUser(size_t user_id, std::unique_ptr<DataBaseClients>& clients, const Date& system_date) override;
+  bool RestoreUser(size_t user_id, std::unique_ptr<DataBaseClients>& clients, const Date& system_date) override;
+  bool CancelTransaction(size_t cl_id_1, size_t acc_id_1, size_t cl_id_2, size_t acc_id_2,
+                         int64_t money, std::unique_ptr<DataBaseAccounts>& accounts, const Date& system_date) override;
 
 };
-
-
-#endif //BANK_SYSTEM_WORKER_WORKERVISITOR_H_

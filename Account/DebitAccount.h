@@ -1,6 +1,4 @@
-#ifndef BANK_SYSTEM_ACCOUNT_DEBITACCOUNT_H_
-#define BANK_SYSTEM_ACCOUNT_DEBITACCOUNT_H_
-
+#pragma once
 
 #include "Account.h"
 
@@ -8,11 +6,9 @@ class DebitAccount : public Account {
 
  public:
 
-  DebitAccount(size_t id, int64_t money)
-        : Account(id, money)
-  {}
+  explicit DebitAccount(size_t id, int64_t money, Date open_date, Date last_date);
+  ~DebitAccount() override = default;
+
+  Account* DeepCopy() override;
 
 };
-
-
-#endif //BANK_SYSTEM_ACCOUNT_DEBITACCOUNT_H_

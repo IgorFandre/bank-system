@@ -1,12 +1,12 @@
-#ifndef BANK_SYSTEM_DATABASES_VECTORDBACCOUNTS_H_
-#define BANK_SYSTEM_DATABASES_VECTORDBACCOUNTS_H_
+#pragma once
 
-
-////// Rewrite не написан, но нужен ли он ?
-
+#include <unordered_map>
 #include <vector>
 
 #include "DataBaseAccounts.h"
+#include "CreditAccount.h"
+#include "DebitAccount.h"
+#include "DepositAccount.h"
 
 class VectorDBAccounts : public DataBaseAccounts {
 
@@ -36,13 +36,21 @@ class VectorDBAccounts : public DataBaseAccounts {
     }
     for (auto account : accounts_[bank_name][user_id]) {
       if (account->GetAccountId() == account_id) {
-        return account;
+        return account->DeepCopy();
       }
     }
     return nullptr;
   }
-  const std::vector<Account*>& GetUserAccounts(const std::string& bank_name, size_t user_id) override {
-    return accounts_[bank_name][user_id];
+  std::vector<Account*> GetUserAccounts(const std::string& bank_name, size_t user_id) override {
+    if (accounts_[bank_name].contains(user_id)) {
+      std::vector<Account*> copies(accounts_[bank_name][user_id].size());
+      for (size_t i = 0; i < copies.size(); ++i) {
+        copies[i] = accounts_[bank_name][user_id][i]->DeepCopy();
+      }
+      return copies;
+    }
+    accounts_[bank_name][user_id] = {};
+    return {};
   }
 
  private:
@@ -50,6 +58,3 @@ class VectorDBAccounts : public DataBaseAccounts {
   std::unordered_map<std::string, std::unordered_map<size_t, std::vector<Account*>>> accounts_;
 
 };
-
-
-#endif //BANK_SYSTEM_DATABASES_VECTORDBACCOUNTS_H_
