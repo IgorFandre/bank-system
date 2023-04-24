@@ -1,6 +1,9 @@
 #include "Logger.h"
 
 Logger::Logger(const std::string& bank, OperationType op) {
+  if (bank.empty()) {
+    throw std::invalid_argument("logger got empty bank name");
+  }
   working_file_ = "Data/" + bank;
   Filesystem::CheckDirectory(working_file_);
   if (op == OperationType::WorkerOperation) {

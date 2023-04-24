@@ -94,6 +94,10 @@ set(TEST_SOURCES
 
         tests/TestCases/FileSystemTestCase/tests.cpp
 
+        tests/TestCases/LoggerTestCase/tests.cpp
+
+        tests/TestCases/RequestTestCase/tests.cpp
+
         # -------------------------------------------
         # Main File
         # -------------------------------------------

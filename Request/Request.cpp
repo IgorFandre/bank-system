@@ -22,7 +22,7 @@ void Request::WriteRequest() const {
 Request Request::ReadLastRequest(const std::string& bank_name) {
   std::string working_path = "Data/" + bank_name + "/requests.json";
   if (!Filesystem::CheckFileForReadingJson(working_path)) {
-    return {bank_name, 0, ""};
+    return Request(bank_name, 0, "");
   }
   std::ifstream f_in(working_path);
   json requests;

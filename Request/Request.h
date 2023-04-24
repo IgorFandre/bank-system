@@ -14,6 +14,8 @@ struct Request {
   Request() : bank_name(), user_id(0), text() {}
   Request(const std::string& bank_name, size_t user_id, const std::string& text);
 
+  bool operator==(const Request&) const = default;
+
   void WriteRequest() const;
   static Request ReadLastRequest(const std::string& bank_name);
 };

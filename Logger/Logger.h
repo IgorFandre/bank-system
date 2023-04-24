@@ -23,6 +23,8 @@ class Logger {
   Logger(const std::string& bank, OperationType op);
   ~Logger() = default;
 
+  inline std::string GetWorkingFile() const { return working_file_; }
+
   void AddLog(const std::string& log);
 
 };
