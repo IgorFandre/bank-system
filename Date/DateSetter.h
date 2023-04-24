@@ -11,7 +11,7 @@ class DateSetter {
 
  public:
 
-  static void StartSession(Date& system_date);
-  static void FinishSession();
+  static void StartSession(Date& system_date, bool write = true);
+  static void FinishSession(bool write = true);
 
 };

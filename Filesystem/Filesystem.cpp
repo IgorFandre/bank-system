@@ -1,7 +1,11 @@
 #include "Filesystem.h"
 
 bool Filesystem::CheckDirectory(const std::string& path) {
-  return std::filesystem::create_directories(path);
+  if (!std::filesystem::exists(path)) {
+    std::filesystem::create_directories(path);
+    return false;
+  }
+  return true;
 }
 
 bool Filesystem::CheckFile(const std::string& path) {

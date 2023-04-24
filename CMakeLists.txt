@@ -81,14 +81,25 @@ set(TEST_SOURCES
         # -------------------------------------------
 
         tests/TestCases/AccountTestCase/tests.cpp
+
+        tests/TestCases/BankTestCase/tests.cpp
+
+        tests/TestCases/ClientTestCase/tests_passport.cpp
+
+        tests/TestCases/ClientTestCase/tests_client.cpp
+
         tests/TestCases/DateTestCase/tests.cpp
+
         tests/TestCases/DBAccountsTestCase/tests.cpp
+
+        tests/TestCases/FileSystemTestCase/tests.cpp
 
         # -------------------------------------------
         # Main File
         # -------------------------------------------
 
         google_tests.cpp
+
 )
 add_executable(TEST_BANK ${TEST_SOURCES})
 add_dependencies(TEST_BANK executable)

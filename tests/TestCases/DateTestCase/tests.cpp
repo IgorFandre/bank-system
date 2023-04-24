@@ -43,6 +43,6 @@ TEST(TEST_DATE, string_date) {
 
 TEST(TEST_DATE, real_date) {
   Date date{};
-  DateSetter::StartSession(date);
-  ASSERT_EQ(Date::StringDate(date), "16.04.2023"); // Enter current date in format "00.00.0000"
+  DateSetter::StartSession(date, false);
+  ASSERT_EQ(Date::StringDate(date), "24.04.2023"); // Enter current date in format "00.00.0000"
 }
