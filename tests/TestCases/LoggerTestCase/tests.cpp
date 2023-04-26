@@ -2,8 +2,10 @@
 #include "../../../Logger/Logger.h"
 #include "LoggerTestCase.h"
 
+std::string LOGGER_TEST_CASE::bank_name = "impossible_name_for_bank";
+
 void LOGGER_TEST_CASE::SetUpTestSuite() {
-  assert("Bank 'impossible_name_for_bank' exists. We can't test logger." && !std::filesystem::exists("Data/impossible_name_for_bank"));
+  assert(!std::filesystem::exists("Data/" + bank_name));
 }
 
 void LOGGER_TEST_CASE::TearDownTestSuite() {
@@ -14,7 +16,7 @@ void LOGGER_TEST_CASE::TearDownTestSuite() {
 }
 
 void LOGGER_TEST_CASE::TearDown() {
-  std::filesystem::remove_all("Data/impossible_name_for_bank");
+  std::filesystem::remove_all("Data/" + bank_name);
 }
 
 TEST_F(LOGGER_TEST_CASE, check_exeption) {
@@ -22,14 +24,14 @@ TEST_F(LOGGER_TEST_CASE, check_exeption) {
 }
 
 TEST_F(LOGGER_TEST_CASE, worker_logs) {
-  Logger log("impossible_name_for_bank", Logger::OperationType::WorkerOperation);
-  ASSERT_EQ(log.GetWorkingFile(), "Data/impossible_name_for_bank/WorkerLogs/logs.txt");
+  Logger log(bank_name, Logger::OperationType::WorkerOperation);
+  ASSERT_EQ(log.GetWorkingFile(), "Data/" + bank_name + "/WorkerLogs/logs.txt");
   ASSERT_TRUE(std::filesystem::exists(log.GetWorkingFile()));
 }
 
 TEST_F(LOGGER_TEST_CASE, accounts_logs) {
-  Logger log("impossible_name_for_bank", Logger::OperationType::OpenAccount);
-  ASSERT_EQ(log.GetWorkingFile(), "Data/impossible_name_for_bank/VisitorLogs/accounts_logs.txt");
+  Logger log(bank_name, Logger::OperationType::OpenAccount);
+  ASSERT_EQ(log.GetWorkingFile(), "Data/" + bank_name + "/VisitorLogs/accounts_logs.txt");
   ASSERT_TRUE(std::filesystem::exists(log.GetWorkingFile()));
   std::string start_message = "Types of accounts:\n"
                               "1 - Credit account\n"
@@ -43,13 +45,13 @@ TEST_F(LOGGER_TEST_CASE, accounts_logs) {
 }
 
 TEST_F(LOGGER_TEST_CASE, transaction_logs) {
-  Logger log("impossible_name_for_bank", Logger::OperationType::Transaction);
-  ASSERT_EQ(log.GetWorkingFile(), "Data/impossible_name_for_bank/VisitorLogs/transaction_logs.txt");
+  Logger log(bank_name, Logger::OperationType::Transaction);
+  ASSERT_EQ(log.GetWorkingFile(), "Data/" + bank_name + "/VisitorLogs/transaction_logs.txt");
   ASSERT_TRUE(std::filesystem::exists(log.GetWorkingFile()));
 }
 
 TEST_F(LOGGER_TEST_CASE, write_logs) {
-  Logger log("impossible_name_for_bank", Logger::OperationType::WorkerOperation);
+  Logger log(bank_name, Logger::OperationType::WorkerOperation);
   log.AddLog("Worker 1 killed the visitor");
   std::ifstream i_file(log.GetWorkingFile());
   std::stringstream buffer_1;

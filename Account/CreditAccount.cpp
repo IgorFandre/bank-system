@@ -29,7 +29,7 @@ int64_t CreditAccount::GetBankFee() const {
   return bank_fee_;
 }
 
-Account* CreditAccount::DeepCopy() {
+Account* CreditAccount::DeepCopy() const {
   return new CreditAccount(Account::account_id_, Account::account_money_, credit_limit_,
                            bank_fee_, open_date_, last_usage_date_);
 }

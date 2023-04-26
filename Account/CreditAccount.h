@@ -18,6 +18,7 @@ class CreditAccount : public Account {
   [[nodiscard]] int64_t GetCreditLimit() const;
   [[nodiscard]] int64_t GetBankFee() const;
 
-  Account* DeepCopy() override;
+  [[nodiscard]] Account* DeepCopy() const override;
 
+  friend bool operator==(const CreditAccount&, const CreditAccount&) = default;
 };

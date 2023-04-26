@@ -92,6 +92,8 @@ set(TEST_SOURCES
 
         tests/TestCases/DBAccountsTestCase/tests.cpp
 
+        tests/TestCases/DBBanksTestCase/tests.cpp
+
         tests/TestCases/FileSystemTestCase/tests.cpp
 
         tests/TestCases/LoggerTestCase/tests.cpp

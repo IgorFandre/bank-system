@@ -41,7 +41,7 @@ TEST(TEST_DATE, string_date) {
   ASSERT_EQ(Date::StringDate(fourth), "12.11.2003");
 }
 
-TEST(TEST_DATE, real_date) {
+TEST(TEST_DATE, real_date_NEED_YOUR_ATTENTION_TO_PASS) {
   Date date{};
   DateSetter::StartSession(date, false);
   ASSERT_EQ(Date::StringDate(date), "24.04.2023"); // Enter current date in format "00.00.0000"

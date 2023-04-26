@@ -14,7 +14,8 @@ class DepositAccount : public Account {
 
   void Update(const Date& system_date) override;
   bool Transaction(int64_t money, const Date& system_date) override;
-  Account* DeepCopy() override;
+
+  [[nodiscard]] Account* DeepCopy() const override;
 
   [[nodiscard]] inline Date GetFinishDate() const {
     return finish_date_;
@@ -24,4 +25,5 @@ class DepositAccount : public Account {
     return reduce_money_;
   }
 
+  friend bool operator==(const DepositAccount&, const DepositAccount&) = default;
 };

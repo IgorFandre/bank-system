@@ -9,6 +9,7 @@ class DebitAccount : public Account {
   explicit DebitAccount(size_t id, int64_t money, Date open_date, Date last_date);
   ~DebitAccount() override = default;
 
-  Account* DeepCopy() override;
+  [[nodiscard]] Account* DeepCopy() const override;
 
+  friend bool operator==(const DebitAccount&, const DebitAccount&) = default;
 };

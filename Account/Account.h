@@ -38,6 +38,7 @@ class Account {
   [[nodiscard]] Date GetLastUsageDate() const;
   [[nodiscard]] Type GetType() const;
 
-  virtual Account* DeepCopy() = 0;
+  [[nodiscard]] virtual Account* DeepCopy() const = 0;
 
+  friend bool operator==(const Account&, const Account&) = default;
 };

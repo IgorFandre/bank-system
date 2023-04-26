@@ -21,7 +21,7 @@ bool DepositAccount::Transaction(int64_t money, const Date& system_date) {
   return false;
 }
 
-Account* DepositAccount::DeepCopy() {
+Account* DepositAccount::DeepCopy() const {
   return new DepositAccount(Account::account_id_, Account::account_money_, finish_date_,
     open_date_, last_usage_date_);
 }
