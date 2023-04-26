@@ -50,6 +50,8 @@ bool JsonDBWorkers::WriteWorker(const std::string& bank_name, const std::string&
   if (!found) {
     workers.push_back(worker_info);
   }
+  std::fstream clear_file(working_path, std::ios::out);
+  clear_file.close();
   std::ofstream f_out(working_path);
   f_out << std::setw(4) << workers;
   f_out.close();
@@ -63,9 +65,9 @@ bool JsonDBWorkers::DeleteWorker(const std::string& bank_name, const std::string
   if (!Filesystem::CheckFileForReadingJson(working_path)) {
     return true;
   }
-  std::fstream f(working_path);
+  std::ifstream f_in(working_path);
   json workers;
-  f >> workers;
+  f_in >> workers;
   if (workers.empty()) {
     return true;
   }
@@ -83,8 +85,11 @@ bool JsonDBWorkers::DeleteWorker(const std::string& bank_name, const std::string
   if (!found) {
     return false;
   }
-  f << workers;
-  f.close();
+  std::fstream clear_file(working_path, std::ios::out);
+  clear_file.close();
+  std::ofstream f_out(working_path);
+  f_out << std::setw(4) << workers;
+  f_out.close();
   return true;
 }
 Worker* JsonDBWorkers::GetWorker(const std::string& bank_name, size_t worker_id) {

@@ -57,8 +57,6 @@ TEST_F(DBACCOUNT_TEST_CASE, functional_test_delete) {
   acc = new DebitAccount(acc_id, 1000, open, last);
 
   auto* got_acc_1 = dynamic_cast<DebitAccount*>(account_bd->GetAccount(bank_name, user_id, acc_id));
-  ASSERT_TRUE(got_acc_1 != nullptr);
-  bool got_bug = (*acc) != (*got_acc_1);
   ASSERT_TRUE(got_acc_1 != nullptr && (*acc) == (*got_acc_1));
   delete got_acc_1;
 
@@ -66,9 +64,10 @@ TEST_F(DBACCOUNT_TEST_CASE, functional_test_delete) {
 
   auto* got_acc_2 = dynamic_cast<DepositAccount*>(account_bd->GetAccount(bank_name, user_id, acc_id));
   ASSERT_TRUE(got_acc_2 == nullptr);
+  delete got_acc_2;
 }
 
-TEST_F(DBACCOUNT_TEST_CASE, little_stress_test) {
+TEST_F(DBACCOUNT_TEST_CASE, little_performance_test) {
   Date open{2000, 1, 1},
       last{2022, 3, 3},
       finish{2025, 1, 2};
@@ -84,10 +83,14 @@ TEST_F(DBACCOUNT_TEST_CASE, little_stress_test) {
     Account* acc_1 = new DebitAccount(account_id_cnt++, 1000 + i, open, last);
     Account* acc_2 = account_bd->GetAccount(bank_name, user_id, i + 1);
     ASSERT_TRUE((*dynamic_cast<DebitAccount*>(acc_1)) == (*dynamic_cast<DebitAccount*>(acc_2)));
+    delete acc_1;
+    delete acc_2;
   }
   for (int i = 0; i < 1000; ++i) {
     Account* acc_1 = new DepositAccount(1000 + i + 1, 1000 + i, finish, open, last);
     Account* acc_2 = account_bd->GetAccount(bank_name, user_id + i, 1000 + i + 1);
     ASSERT_TRUE((*dynamic_cast<DepositAccount*>(acc_1)) == (*dynamic_cast<DepositAccount*>(acc_2)));
+    delete acc_1;
+    delete acc_2;
   }
 }

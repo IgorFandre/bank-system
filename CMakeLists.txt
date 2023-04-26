@@ -20,6 +20,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 find_package(GTest REQUIRED)
 
 # -------------------------------------------
+# Little acceleration
+# -------------------------------------------
+
+SET(GCC_COVERAGE_COMPILE_FLAGS "-O2")
+SET(CMAKE_CXX_FLAGS  "${GCC_COVERAGE_COMPILE_FLAGS}")
+
+# -------------------------------------------
 # Shared libraries
 # -------------------------------------------
 
@@ -93,6 +100,10 @@ set(TEST_SOURCES
         tests/TestCases/DBAccountsTestCase/tests.cpp
 
         tests/TestCases/DBBanksTestCase/tests.cpp
+
+        tests/TestCases/DBClientsTestCase/tests.cpp
+
+        tests/TestCases/DBWorkersTestCase/tests.cpp
 
         tests/TestCases/FileSystemTestCase/tests.cpp
 
