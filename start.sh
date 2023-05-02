@@ -9,7 +9,7 @@ brew install googletest
 echo "Installing cmake"
 brew install cmake
 
-mkdir build && cd build
+mkdir -p build && cd build
 cmake .. && make
 
 cd ../bin
