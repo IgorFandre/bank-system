@@ -73,9 +73,10 @@ Bank Builder::BuildBank(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in,
       not_found = false;
     }
   }
-  message = "What credit limit do you want to set?";
+  message = "What credit limit do you want to set? (>= 0)";
   int64_t limit;
-  GetNumber(-10'000'000'000, 0, limit, out, in, message);
+  GetNumber(0, 10'000'000'000, limit, out, in, message);
+  limit *= -1;
 
   message = "What bank fee do you want to set? (no more than (limit / 5) )";
   int64_t fee;

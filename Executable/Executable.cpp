@@ -364,7 +364,6 @@ void Executable::CancelTransaction() {
                                                  money, accounts_, system_date);
   if (done) {
     out_->Output("Everything is ok!");
-    /////////////// make log
   } else {
     out_->Output("Something went wrong, please report to the administrator or try again.");
   }
