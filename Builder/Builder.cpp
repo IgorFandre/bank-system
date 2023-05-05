@@ -25,7 +25,7 @@ void Builder::GetNumber(int64_t b1, int64_t b2, int64_t& num, std::unique_ptr<Sh
   }
 }
 
-Account* Builder::BuildAccount(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, const Date& system_date,
+std::shared_ptr<Account> Builder::BuildAccount(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, const Date& system_date,
                                size_t account_id, int64_t cred_lim, int64_t bank_fee) {
   int64_t type = 0;
   {
@@ -44,8 +44,8 @@ Account* Builder::BuildAccount(std::unique_ptr<Show>& out, std::unique_ptr<Get>&
     message = "How much money you are ready to invest:";
     GetNumber(0, INT64_MAX, money, out, in, message);
 
-    return DepositFabric(system_date
-                             + Date(static_cast<int>(years), 0, 0)).MakeAccount(account_id, money, system_date);
+    return std::shared_ptr<Account>{DepositFabric(system_date
+                             + Date(static_cast<int>(years), 0, 0)).MakeAccount(account_id, money, system_date)};
   }
 
   int64_t money = -1;

@@ -20,10 +20,7 @@ Executable::~Executable() {
   DateSetter::FinishSession();
   if (bank_) {
     banks_->WriteBank(*bank_);
-    delete bank_;
   }
-  delete visitor_;
-  delete worker_visitor_;
 }
 
 void Executable::Start() {
@@ -75,7 +72,6 @@ void Executable::BankMenu() {
     } else {
       if (bank_) {
         banks_->WriteBank(*bank_);
-        delete bank_;
       }
       bank_ = banks_->GetBank(bank_name_);
       mode_ = Mode::MainMenu;
@@ -136,7 +132,7 @@ void Executable::VisitorSession() {
     out_->Output(message);
     pas = in_->InputNumber();
   }
-  Client* client = clients_->GetClient(bank_name_, id);
+  std::shared_ptr<Client> client = clients_->GetClient(bank_name_, id);
   if (!client) {
     out_->Output("This user doesn't exist. Please, try again or register");
     mode_ = Mode::MainMenu;
@@ -145,10 +141,8 @@ void Executable::VisitorSession() {
   if (client->GetStatus() == Status::Blocked) {
     out_->Output("You are blocked. Please report to the administrator");
     mode_ = Mode::MainMenu;
-    delete client;
     return;
   }
-  delete client;
   bool visit = visitor_->MakeVisit(bank_name_, id, pas, clients_);
   if (visit) {
     while (true) {
@@ -196,9 +190,6 @@ void Executable::ShowAccounts(size_t client_id) {
     std::string acc_info = "Id: " + std::to_string(account->GetAccountId())
         + "    Money: " + std::to_string(account->GetBalance()) + acc_type;
     out_->Output(acc_info);
-  }
-  for (auto acc : accounts) {
-    delete acc;
   }
 }
 
@@ -261,7 +252,7 @@ void Executable::WorkerSession() {
     out_->Output(message);
     pas = in_->InputNumber();
   }
-  Worker* worker = workers_->GetWorker(bank_name_, worker_id);
+  std::shared_ptr<Worker> worker = workers_->GetWorker(bank_name_, worker_id);
   if (worker == nullptr) {
     out_->Output("This account doesn't exist");
     mode_ = Mode::MainMenu;
@@ -269,11 +260,9 @@ void Executable::WorkerSession() {
   } else if (!worker->CheckPassword(pas)) {
     out_->Output("Wrong password!");
     mode_ = Mode::MainMenu;
-    delete worker;
     return;
   }
   bool visit = worker_visitor_->MakeVisit(bank_name_, *worker, pas);
-  delete worker;
   if (visit) {
     while (true) {
       std::string message = "Menu:\n"

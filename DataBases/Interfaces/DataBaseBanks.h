@@ -5,9 +5,7 @@
 #include "../../Bank/Bank.h"
 
 class DataBaseBanks {
-
  public:
-
   DataBaseBanks() = default;
   virtual ~DataBaseBanks() = default;
 
@@ -16,7 +14,7 @@ class DataBaseBanks {
 
   virtual void WriteBank(const Bank& bank) = 0;
   virtual bool FindBank(const std::string& bank_name) = 0;
-  virtual Bank* GetBank(const std::string& bank_name) = 0;
-  virtual std::vector<Bank*> GetBanks() = 0;
+  virtual std::shared_ptr<Bank> GetBank(const std::string& bank_name) = 0;
+  virtual std::vector<std::shared_ptr<Bank>> GetBanks() = 0;
 
 };

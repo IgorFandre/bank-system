@@ -1,16 +1,14 @@
 #include <gtest/gtest.h>
 #include "DBBanksTestCase.h"
 
-DataBaseBanks* DBBANKS_TEST_CASE::banks_bd = nullptr;
+std::shared_ptr<DataBaseBanks> DBBANKS_TEST_CASE::banks_bd(nullptr);
 std::string DBBANKS_TEST_CASE::bank_name = "impossible_name_for_bank";
 
 void DBBANKS_TEST_CASE::SetUpTestSuite() {
-  banks_bd = new JsonDBBanks();
+  banks_bd.reset(new JsonDBBanks());
 }
 
 void DBBANKS_TEST_CASE::TearDownTestSuite() {
-  delete banks_bd;
-  banks_bd = nullptr;
   std::string data = "Data";
   if (std::filesystem::exists(data) && std::filesystem::is_empty(data)) {
     std::filesystem::remove(data);
@@ -27,7 +25,7 @@ TEST_F(DBBANKS_TEST_CASE, functional_test) {
 
   banks_bd->WriteBank(bank);
 
-  Bank* got_bank = banks_bd->GetBank(bank_name);
+  std::shared_ptr<Bank> got_bank = banks_bd->GetBank(bank_name);
   ASSERT_EQ(got_bank->GetName(), bank_name);
   ASSERT_EQ(got_bank->GetClientID_CONST(),    bank.GetClientID_CONST());
   ASSERT_EQ(got_bank->GetWorkerID_CONST(),    bank.GetWorkerID_CONST());

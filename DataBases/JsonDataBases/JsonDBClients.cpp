@@ -91,10 +91,10 @@ void JsonDBClients::DeleteClient(const std::string& bank_name, size_t user_id) {
   f_in.close();
 }
 
-Client* JsonDBClients::GetClient(const std::string& bank_name, size_t user_id) {
+std::shared_ptr<Client> JsonDBClients::GetClient(const std::string& bank_name, size_t user_id) {
   std::string working_path = "Data/" + bank_name + "/Clients/" + GetClientsFileName(user_id);
   if (!std::filesystem::exists(working_path) || !Filesystem::CheckFileForReadingJson(working_path)) {
-    return nullptr;
+    return {nullptr};
   }
   json clients;
   std::ifstream f_in(working_path);
@@ -104,8 +104,8 @@ Client* JsonDBClients::GetClient(const std::string& bank_name, size_t user_id) {
     if (clients[i][0] == user_id) {
       Passport pass(clients[i][3][0], clients[i][3][1], clients[i][3][2],
                     clients[i][3][3], clients[i][3][4]);
-      return new Client(user_id, clients[i][1], pass);
+      return std::shared_ptr<Client>{new Client(user_id, clients[i][1], pass)};
     }
   }
-  return nullptr;
+  return {nullptr};
 }

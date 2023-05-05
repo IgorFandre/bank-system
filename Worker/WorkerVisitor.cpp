@@ -34,7 +34,7 @@ void WorkerVisitor::CheckOldestRequest(std::unique_ptr<Show>& out, const Date& s
 }
 
 bool WorkerVisitor::BlockUser(size_t user_id, std::unique_ptr<DataBaseClients>& clients, const Date& system_date) {
-  Client* client = clients->GetClient(bank_name_, user_id);
+  std::shared_ptr<Client> client = clients->GetClient(bank_name_, user_id);
   if (client == nullptr) {
     return false;
   }
@@ -46,11 +46,10 @@ bool WorkerVisitor::BlockUser(size_t user_id, std::unique_ptr<DataBaseClients>& 
         + std::to_string(user_id);
   logger.AddLog(log);
 
-  delete client;
   return true;
 }
 bool WorkerVisitor::RestoreUser(size_t user_id, std::unique_ptr<DataBaseClients>& clients, const Date& system_date) {
-  Client* client = clients->GetClient(bank_name_, user_id);
+  std::shared_ptr<Client> client = clients->GetClient(bank_name_, user_id);
   if (client == nullptr) {
     return false;
   }
@@ -62,7 +61,6 @@ bool WorkerVisitor::RestoreUser(size_t user_id, std::unique_ptr<DataBaseClients>
         + "): Restored user with ID " + std::to_string(user_id);
   logger.AddLog(log);
 
-  delete client;
   return true;
 }
 bool WorkerVisitor::CancelTransaction(size_t cl_id_1, size_t acc_id_1, size_t cl_id_2, size_t acc_id_2,

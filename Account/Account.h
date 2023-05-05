@@ -5,25 +5,13 @@
 #include "../Date/Date.h"
 
 class Account {
-
  public:
-
   enum class Type {
     Empty = 0,
     Credit,
     Deposit,
     Debit,
   };
-
- protected:
-
-  size_t account_id_;
-  int64_t account_money_;
-  Date open_date_;
-  Date last_usage_date_;
-  Type type_;
-
- public:
 
   explicit Account(size_t id, int64_t money, Type type, Date open_date, Date last_date);
   Account(const Account&) = default;
@@ -41,4 +29,11 @@ class Account {
   [[nodiscard]] virtual Account* DeepCopy() const = 0;
 
   friend bool operator==(const Account&, const Account&) = default;
+
+ protected:
+  size_t account_id_;
+  int64_t account_money_;
+  Date open_date_;
+  Date last_usage_date_;
+  Type type_;
 };

@@ -4,14 +4,7 @@
 #include "Passport.h"
 
 class Client {
-
-  size_t user_id_;
-  int64_t user_password_;
-  Passport passport_;
-  Status status_;
-
  public:
-
   Client() : user_id_(SIZE_T_MAX), user_password_(INT64_MAX), passport_(), status_{passport_.GetPassportStatus()}
   {}
   Client(size_t user_id, int64_t user_password, const Passport& passport)
@@ -31,5 +24,11 @@ class Client {
   [[nodiscard]] inline Status GetStatus() const { return status_; }
   [[nodiscard]] inline int64_t GetPassword() const { return user_password_; }
   [[nodiscard]] inline const Passport* GetPassport() const { return &passport_; }
+
+ private:
+  size_t user_id_;
+  int64_t user_password_;
+  Passport passport_;
+  Status status_;
 
 };

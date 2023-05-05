@@ -3,12 +3,7 @@
 #include "Account.h"
 
 class DepositAccount : public Account {
-
-  Date finish_date_;
-  bool reduce_money_;
-
  public:
-
   DepositAccount(size_t id, int64_t money, Date finish, Date open_date, Date last_date);
   ~DepositAccount() override = default;
 
@@ -26,4 +21,9 @@ class DepositAccount : public Account {
   }
 
   friend bool operator==(const DepositAccount&, const DepositAccount&) = default;
+
+ private:
+  Date finish_date_;
+  bool reduce_money_;
+
 };

@@ -39,6 +39,7 @@ class Executable {
     VisitorSession,
     WorkerSession,
   };
+
   Mode mode_;
   Date system_date;
   std::string bank_name_;
@@ -48,8 +49,7 @@ class Executable {
   std::unique_ptr<DataBaseWorkers> workers_;
   std::unique_ptr<Show> out_;
   std::unique_ptr<Get> in_;
-  Bank* bank_;
-  Visitor* visitor_;
-  WorkerVisitor* worker_visitor_;
-
+  std::shared_ptr<Bank> bank_;
+  std::shared_ptr<Visitor> visitor_;
+  std::shared_ptr<WorkerVisitor> worker_visitor_;
 };

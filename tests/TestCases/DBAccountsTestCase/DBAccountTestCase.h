@@ -6,7 +6,7 @@
 
 class DBACCOUNT_TEST_CASE : public ::testing::Test {
  public:
-  static DataBaseAccounts* account_bd;
+  static std::shared_ptr<DataBaseAccounts> account_bd;
   static std::string bank_name;
 
   static void SetUpTestSuite();

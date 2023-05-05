@@ -10,7 +10,6 @@
 class JsonDBBanks : public DataBaseBanks {
   using json = nlohmann::json;
  public:
-
   JsonDBBanks() = default;
   ~JsonDBBanks() override = default;
 
@@ -19,6 +18,7 @@ class JsonDBBanks : public DataBaseBanks {
 
   void WriteBank(const Bank& bank) override;
   bool FindBank(const std::string& bank_name) override;
-  Bank* GetBank(const std::string& bank_name) override;
-  std::vector<Bank*> GetBanks() override;
+  std::shared_ptr<Bank> GetBank(const std::string& bank_name) override;
+  std::vector<std::shared_ptr<Bank>> GetBanks() override;
+
 };

@@ -6,7 +6,7 @@
 
 class DBWORKERS_TEST_CASE : public ::testing::Test {
  public:
-  static DataBaseWorkers* workers_bd;
+  static std::shared_ptr<DataBaseWorkers> workers_bd;
   static std::string bank_name;
   static std::string bank_password;
 

@@ -35,7 +35,7 @@ bool JsonDBBanks::FindBank(const std::string& bank_name) {
   return true;
 }
 
-Bank* JsonDBBanks::GetBank(const std::string& bank_name) {
+std::shared_ptr<Bank> JsonDBBanks::GetBank(const std::string& bank_name) {
   if (FindBank(bank_name)) {
     std::string working_path = "Data/" + bank_name + "/bank_info.json";
     json bank_info;
@@ -43,19 +43,19 @@ Bank* JsonDBBanks::GetBank(const std::string& bank_name) {
     f_in >> bank_info;
     if (bank_info.size() != 7) {
       std::cerr << "Data lost or broken ( Data/" + bank_name + "/bank_info.json ) !!! Can't parse info." << std::endl;
-      return nullptr;
+      return {nullptr};
     }
-    return new Bank(bank_info[0], bank_info[1], bank_info[2],
-                    bank_info[3], bank_info[4], bank_info[5], bank_info[6]);
+    return std::shared_ptr<Bank>{new Bank(bank_info[0], bank_info[1], bank_info[2],
+                    bank_info[3], bank_info[4], bank_info[5], bank_info[6])};
   }
-  return nullptr;
+  return {nullptr};
 }
 
-std::vector<Bank*> JsonDBBanks::GetBanks() {
-  std::vector<Bank*> res;
+std::vector<std::shared_ptr<Bank>> JsonDBBanks::GetBanks() {
+  std::vector<std::shared_ptr<Bank>> res;
   for (auto& dir : std::filesystem::directory_iterator("Data")) {
     std::string bank_name = dir.path().string().substr(8);
-    Bank* cur = GetBank(bank_name);
+    std::shared_ptr<Bank> cur(std::move(GetBank(bank_name)));
     if (cur) {
       res.push_back(cur);
     } else {

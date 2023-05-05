@@ -3,12 +3,7 @@
 #include "Account.h"
 
 class CreditAccount : public Account {
-
-  int64_t credit_limit_;
-  int64_t bank_fee_;
-
  public:
-
   explicit CreditAccount(size_t id, int64_t money, int64_t limit, int64_t fee, Date open_date, Date last_date);
   ~CreditAccount() override = default;
 
@@ -21,4 +16,9 @@ class CreditAccount : public Account {
   [[nodiscard]] Account* DeepCopy() const override;
 
   friend bool operator==(const CreditAccount&, const CreditAccount&) = default;
+
+ private:
+  int64_t credit_limit_;
+  int64_t bank_fee_;
+
 };

@@ -9,18 +9,7 @@ enum class Status {
 };
 
 struct Passport {
-
- private:
-
-  int number_;
-  int series_;
-
-  std::string name_;
-  std::string surname_;
-  std::string address_;
-
  public:
-
   Passport() : number_{-1}, series_{-1} {}
   Passport(int number, int series, std::string&& name, std::string&& surname, std::string&& address)
       : number_{number}, series_{series}, name_{std::forward<std::string>(name)},
@@ -39,4 +28,12 @@ struct Passport {
   [[nodiscard]] inline std::string GetName() const { return name_; }
   [[nodiscard]] inline std::string GerSurname() const { return surname_; }
   [[nodiscard]] inline std::string GetAddress() const { return address_; }
+
+ private:
+  int number_;
+  int series_;
+  std::string name_;
+  std::string surname_;
+  std::string address_;
+
 };
