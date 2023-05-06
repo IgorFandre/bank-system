@@ -45,8 +45,8 @@ std::shared_ptr<Bank> JsonDBBanks::GetBank(const std::string& bank_name) {
       std::cerr << "Data lost or broken ( Data/" + bank_name + "/bank_info.json ) !!! Can't parse info." << std::endl;
       return {nullptr};
     }
-    return std::shared_ptr<Bank>{new Bank(bank_info[0], bank_info[1], bank_info[2],
-                    bank_info[3], bank_info[4], bank_info[5], bank_info[6])};
+    return std::make_shared<Bank>(bank_info[0], bank_info[1], bank_info[2],
+                    bank_info[3], bank_info[4], bank_info[5], bank_info[6]);
   }
   return {nullptr};
 }
@@ -54,7 +54,7 @@ std::shared_ptr<Bank> JsonDBBanks::GetBank(const std::string& bank_name) {
 std::vector<std::shared_ptr<Bank>> JsonDBBanks::GetBanks() {
   std::vector<std::shared_ptr<Bank>> res;
   for (auto& dir : std::filesystem::directory_iterator("Data")) {
-    std::string bank_name = dir.path().string().substr(8);
+    std::string bank_name = dir.path().string().substr(5);
     std::shared_ptr<Bank> cur(std::move(GetBank(bank_name)));
     if (cur) {
       res.push_back(cur);

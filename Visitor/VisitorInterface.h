@@ -6,9 +6,7 @@
 #include "../DataBases/Interfaces/DataBaseClients.h"
 
 class VisitorInterface {
-
  public:
-
   VisitorInterface() = default;
   virtual ~VisitorInterface() = default;
 

@@ -24,7 +24,8 @@ class Executable {
   void BankMenu();
   void MainMenu();
   void VisitorSession();
-  void ShowAccounts(size_t client_id);
+  void ShowAccounts(size_t client_id) const;
+  void ShowExistingBanks() const;
   void MakeTransaction();
   void WorkerSession();
   void CancelTransaction();

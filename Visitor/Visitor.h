@@ -7,13 +7,7 @@
 
 
 class Visitor : public VisitorInterface {
-
-  std::string bank_name_;
-  Client client_;
-  bool in_;
-
  public:
-
   Visitor();
   ~Visitor() override = default;
 
@@ -29,5 +23,10 @@ class Visitor : public VisitorInterface {
   [[nodiscard]] inline size_t GetID() const { return client_.GetID(); }
   [[nodiscard]] inline bool CheckPassword(int64_t pass) const { return client_.CheckPassword(pass); }
   [[nodiscard]] inline Status GetStatus() const { return client_.GetStatus(); }
+
+ private:
+  std::string bank_name_;
+  Client client_;
+  bool in_;
 
 };

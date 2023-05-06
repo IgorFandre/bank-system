@@ -47,8 +47,9 @@ void Executable::BankMenu() {
   std::string message = "Choose what do you want to do:\n"
                         "1 - Exit\n"
                         "2 - Create new bank\n"
-                        "3 - Go to bank\n"
-                        "4 - Update system time";
+                        "3 - Show all banks\n"
+                        "4 - Go to bank\n"
+                        "5 - Update system time";
   int64_t choose;
   Builder::GetNumber(1, 4, choose, out_, in_, message);
   if (choose == 2) {
@@ -58,9 +59,9 @@ void Executable::BankMenu() {
     std::string bank_password;
     Builder::GetFilledString(bank_password, out_, in_, message);
     workers_->AddNewBank(new_bank.GetName(), bank_password);
-  } else if (choose == 4) {
-    system_date = std::chrono::floor<std::chrono::days>(std::chrono::system_clock::now());
   } else if (choose == 3) {
+    ShowExistingBanks();
+  } else if (choose == 4) {
     Builder::GetFilledString(bank_name_, out_, in_, "Enter bank name:");
     while ((!banks_->FindBank(bank_name_)) && bank_name_ != "!") {
       out_->Output("Error! We don't find this bank. To go back write '!'");
@@ -76,8 +77,20 @@ void Executable::BankMenu() {
       bank_ = banks_->GetBank(bank_name_);
       mode_ = Mode::MainMenu;
     }
+  } else if (choose == 5) {
+    system_date = std::chrono::floor<std::chrono::days>(std::chrono::system_clock::now());
   } else {
     mode_ = Mode::Stop;
+  }
+}
+
+void Executable::ShowExistingBanks() const {
+  out_->Output("Existing banks:");
+  for (const auto& bank : banks_->GetBanks()) {
+    out_->Output("- " + bank->GetName());
+  }
+  if (dynamic_cast<ConsoleShow*>(out_.get()) != nullptr) {
+    out_->Output("");
   }
 }
 
@@ -176,9 +189,9 @@ void Executable::VisitorSession() {
   }
 }
 
-void Executable::ShowAccounts(size_t client_id) {
+void Executable::ShowAccounts(size_t client_id) const {
   auto accounts = accounts_->GetUserAccounts(bank_name_, client_id);
-  for (auto account : accounts) {
+  for (const auto& account : accounts) {
     std::string acc_type = " ( ";
     if (account->GetType() == Account::Type::Credit) {
       acc_type += "Credit account (minimum is " + std::to_string(bank_->GetCreditLimit()) + ") )";

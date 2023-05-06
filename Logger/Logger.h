@@ -7,13 +7,7 @@
 #include "../Filesystem/Filesystem.h"
 
 class Logger {
-
- private:
-
-  std::string working_file_;
-
  public:
-
   enum class OperationType {
     WorkerOperation = 0,
     Transaction,
@@ -23,8 +17,11 @@ class Logger {
   Logger(const std::string& bank, OperationType op);
   ~Logger() = default;
 
-  inline std::string GetWorkingFile() const { return working_file_; }
+  [[nodiscard]] inline std::string GetWorkingFile() const { return working_file_; }
 
   void AddLog(const std::string& log);
+
+ private:
+  std::string working_file_;
 
 };

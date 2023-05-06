@@ -6,9 +6,7 @@
 #include "Worker.h"
 
 class WorkerVisitorInterface {
-
  public:
-
   WorkerVisitorInterface() = default;
   virtual ~WorkerVisitorInterface() = default;
 
