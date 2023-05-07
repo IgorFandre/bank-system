@@ -103,7 +103,7 @@ Client Builder::BuildClient(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in
   Passport passport = BuildPassport(out, in);
 
   std::string password;
-  std::string message = "What password would you use? (use number_ from -10^9 to 10^9).\nPlease remember it.";
+  std::string message = "What password would you use? (without spaces).\nPlease remember it.";
   GetFilledString(password, out, in, message);
 
   return {id, std::move(password), passport};
@@ -152,7 +152,7 @@ Request Builder::BuildRequest(std::unique_ptr<Show>& out, std::unique_ptr<Get>& 
 
 Worker Builder::BuildWorker(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, size_t id) {
   std::string password;
-  std::string message = "What password would you use? (use number_ from -10^9 to 10^9).\nPlease remember it.";
+  std::string message = "What password would you use? (without spaces).\nPlease remember it.";
   GetFilledString(password, out, in, message);
 
   out->Output("Thank you! Your id is :");
