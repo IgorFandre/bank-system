@@ -1,4 +1,4 @@
-#include <GTest/gtest.h>
+#include <gtest/gtest.h>
 #include "../../../Account/AccountFabric.h"
 
 TEST(TEST_ACCOUNT, update_credit_1) {

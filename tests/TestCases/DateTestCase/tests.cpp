@@ -1,4 +1,5 @@
-#include <GTest/gtest.h>
+#include <gtest/gtest.h>
+
 #include "../../../Date/DateSetter.h"
 
 TEST(TEST_DATE, date_comparison) {

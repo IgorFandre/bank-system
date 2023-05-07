@@ -1,4 +1,3 @@
-#include <gtest/gtest.h>
 #include "DBClientsTestCase.h"
 
 std::shared_ptr<DataBaseClients> DBCLIENTS_TEST_CASE::clients_bd(nullptr);

@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "../../../Client/Client.h"
 
 TEST(TEST_CLIENT, check_getters) {

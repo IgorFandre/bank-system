@@ -1,4 +1,3 @@
-#include <gtest/gtest.h>
 #include "../../../Request/Request.h"
 #include "RequestTestCase.h"
 

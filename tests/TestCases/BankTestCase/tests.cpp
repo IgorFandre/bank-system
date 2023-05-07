@@ -1,4 +1,4 @@
-#include <GTest/gtest.h>
+#include <gtest/gtest.h>
 #include "../../../Bank/Bank.h"
 
 TEST(TEST_BANK, check_copy) {

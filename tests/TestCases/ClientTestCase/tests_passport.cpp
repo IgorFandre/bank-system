@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "../../../Client/Passport.h"
 
 TEST(TEST_PASSPORT, check_copy) {

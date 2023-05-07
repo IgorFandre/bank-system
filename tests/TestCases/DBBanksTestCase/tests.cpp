@@ -1,4 +1,3 @@
-#include <gtest/gtest.h>
 #include "DBBanksTestCase.h"
 
 std::shared_ptr<DataBaseBanks> DBBANKS_TEST_CASE::banks_bd(nullptr);

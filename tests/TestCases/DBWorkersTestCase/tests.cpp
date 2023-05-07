@@ -1,4 +1,3 @@
-#include <gtest/gtest.h>
 #include "DBWorkersTestCase.h"
 
 std::shared_ptr<DataBaseWorkers> DBWORKERS_TEST_CASE::workers_bd(nullptr);

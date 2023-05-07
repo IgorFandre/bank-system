@@ -1,4 +1,3 @@
-#include <gtest/gtest.h>
 #include "DBAccountTestCase.h"
 
 std::shared_ptr<DataBaseAccounts> DBACCOUNT_TEST_CASE::account_bd(nullptr);
