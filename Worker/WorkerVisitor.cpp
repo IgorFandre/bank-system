@@ -1,6 +1,6 @@
 #include "WorkerVisitor.h"
 
-WorkerVisitor::WorkerVisitor() : bank_name_(), worker_(0, 0), in_(false) {}
+WorkerVisitor::WorkerVisitor() : bank_name_(), worker_(0, ""), in_(false) {}
 
 bool WorkerVisitor::MakeVisit(const std::string& bank_name, const Worker& worker, const std::string& password) {
   if (worker.CheckPassword(password)) {
