@@ -31,7 +31,8 @@ build:
     - cd .. && mv bin/TEST_BANK .
   artifacts:
     paths:
-      - TEST_BANK
+      - bin/TEST_BANK
+      - lib/*
   tags:
     - common
     - cpu
@@ -39,7 +40,7 @@ build:
 test:
   stage: test
   script:
-    - ./TEST_BANK
+    - bin/TEST_BANK
   tags:
     - common
     - cpu
