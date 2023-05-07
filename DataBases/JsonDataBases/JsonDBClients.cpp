@@ -104,7 +104,7 @@ std::shared_ptr<Client> JsonDBClients::GetClient(const std::string& bank_name, s
     if (clients[i][0] == user_id) {
       Passport pass(clients[i][3][0], clients[i][3][1], clients[i][3][2],
                     clients[i][3][3], clients[i][3][4]);
-      return std::shared_ptr<Client>{new Client(user_id, clients[i][1], pass)};
+      return std::make_shared<Client>(user_id, clients[i][1], pass);
     }
   }
   return {nullptr};

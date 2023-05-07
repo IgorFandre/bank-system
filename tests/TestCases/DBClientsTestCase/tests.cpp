@@ -21,8 +21,8 @@ void DBCLIENTS_TEST_CASE::TearDown() {
 
 TEST_F(DBCLIENTS_TEST_CASE, functional_test_write_read) {
   Passport passport{1, 1, "a", "b", "c"};
-  Client cl_1{1, 1234, passport};
-  Client cl_2{2, 1234, passport};
+  Client cl_1{1, "1234", passport};
+  Client cl_2{2, "1234", passport};
 
   clients_bd->WriteClient(bank_name, cl_1);
   clients_bd->WriteClient(bank_name, cl_2);
@@ -36,7 +36,7 @@ TEST_F(DBCLIENTS_TEST_CASE, functional_test_write_read) {
 
 TEST_F(DBCLIENTS_TEST_CASE, functional_test_delete) {
   Passport passport{1, 1, "a", "b", "c"};
-  Client cl{1, 1234, passport};
+  Client cl{1, "1234", passport};
 
   clients_bd->WriteClient(bank_name, cl);
 
@@ -52,12 +52,12 @@ TEST_F(DBCLIENTS_TEST_CASE, functional_test_delete) {
 TEST_F(DBCLIENTS_TEST_CASE, little_performance_test) {
   for (int i = 1; i <= 1000; ++i) {
     Passport passport{i, i * 10, "a", "b", "c"};
-    Client cl(i, 1234, passport);
+    Client cl(i, "1234", passport);
     clients_bd->WriteClient(bank_name, cl);
   }
   for (int i = 1; i <= 1000; ++i) {
     Passport passport{i, i * 10, "a", "b", "c"};
-    Client cl(i, 1234, passport);
+    Client cl(i, "1234", passport);
     std::shared_ptr<Client> got_cl = clients_bd->GetClient(bank_name, i);
     ASSERT_TRUE(got_cl.get() != nullptr && cl == *got_cl);
   }

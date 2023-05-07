@@ -26,7 +26,7 @@ TEST_F(DBWORKERS_TEST_CASE, functional_test_write_read) {
   std::string cur_test_bank_name = bank_name + "_test_1";
   workers_bd->AddNewBank(cur_test_bank_name, bank_password);
 
-  Worker worker(worker_id, 123);
+  Worker worker(worker_id, "123");
   workers_bd->WriteWorker(cur_test_bank_name, bank_password, worker);
   std::shared_ptr<Worker> got_wk = workers_bd->GetWorker(cur_test_bank_name, worker_id);
   ASSERT_TRUE(got_wk.get() != nullptr &&
@@ -39,7 +39,7 @@ TEST_F(DBWORKERS_TEST_CASE, functional_test_delete) {
   std::string cur_test_bank_name = bank_name + "_test_2";
   workers_bd->AddNewBank(cur_test_bank_name, bank_password);
 
-  Worker worker(1, 123);
+  Worker worker(1, "123");
   workers_bd->WriteWorker(cur_test_bank_name, bank_password, worker);
 
   std::shared_ptr<Worker> got_wk_1 = workers_bd->GetWorker(cur_test_bank_name, worker_id);

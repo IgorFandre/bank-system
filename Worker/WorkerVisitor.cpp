@@ -2,7 +2,7 @@
 
 WorkerVisitor::WorkerVisitor() : bank_name_(), worker_(0, 0), in_(false) {}
 
-bool WorkerVisitor::MakeVisit(const std::string& bank_name, const Worker& worker, int64_t password) {
+bool WorkerVisitor::MakeVisit(const std::string& bank_name, const Worker& worker, const std::string& password) {
   if (worker.CheckPassword(password)) {
     worker_ = worker;
     bank_name_ = bank_name;
@@ -64,11 +64,11 @@ bool WorkerVisitor::RestoreUser(size_t user_id, std::unique_ptr<DataBaseClients>
   return true;
 }
 bool WorkerVisitor::CancelTransaction(size_t cl_id_1, size_t acc_id_1, size_t cl_id_2, size_t acc_id_2,
-                                      int64_t money, std::unique_ptr<DataBaseAccounts>& accounts, const Date& system_date) {
+                                      const BigInteger& money, std::unique_ptr<DataBaseAccounts>& accounts, const Date& system_date) {
 
   Logger logger(bank_name_, Logger::OperationType::WorkerOperation);
   std::string log = "ID: " + std::to_string(worker_.GetId()) + " (" + Date::StringDate(system_date) + "): "
-        + std::to_string(money) + " rubles from account " + std::to_string(acc_id_1)
+        + money.toString() + " rubles from account " + std::to_string(acc_id_1)
         + " (user ID " + std::to_string(cl_id_1) + " ) to account " + std::to_string(acc_id_2)
         + " (user ID " + std::to_string(cl_id_1) + " )";
   logger.AddLog(log);

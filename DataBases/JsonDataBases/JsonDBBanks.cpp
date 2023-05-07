@@ -1,13 +1,18 @@
 #include "JsonDBBanks.h"
 
+BigInteger JsonDBBanks::GetBigintFromJson(const json& str) {
+  std::string dirty_string = str.dump();
+  return BigInteger{dirty_string.substr(1, dirty_string.size() - 2)};
+}
+
 void JsonDBBanks::WriteBank(const Bank& bank) {
   std::string working_path = "Data/" + bank.GetName();
   Filesystem::CheckDirectory(working_path);
   working_path += "/bank_info.json";
   Filesystem::CheckFile(working_path);
   std::ofstream f_out(working_path);
-  json bank_info = json::array({bank.GetName(), bank.GetCreditLimit(),
-                                bank.GetBankFee(), bank.GetDepositPercent(),
+  json bank_info = json::array({bank.GetName(), bank.GetCreditLimit().toString(),
+                                bank.GetBankFee().toString(), bank.GetDepositPercent(),
                                 bank.GetAccountID_CONST(), bank.GetClientID_CONST(),
                                 bank.GetWorkerID_CONST()});
 
@@ -45,7 +50,7 @@ std::shared_ptr<Bank> JsonDBBanks::GetBank(const std::string& bank_name) {
       std::cerr << "Data lost or broken ( Data/" + bank_name + "/bank_info.json ) !!! Can't parse info." << std::endl;
       return {nullptr};
     }
-    return std::make_shared<Bank>(bank_info[0], bank_info[1], bank_info[2],
+    return std::make_shared<Bank>(bank_info[0], GetBigintFromJson(bank_info[1]), GetBigintFromJson(bank_info[2]),
                     bank_info[3], bank_info[4], bank_info[5], bank_info[6]);
   }
   return {nullptr};

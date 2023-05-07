@@ -5,7 +5,6 @@ void Builder::GetFilledString(std::string& to_fill, std::unique_ptr<Show>& out,
   while (true) {
     out->Output(message);
     to_fill = in->InputString();
-    out->Output("");
     if (!to_fill.empty()) {
       return;
     }
@@ -18,7 +17,18 @@ void Builder::GetNumber(int64_t b1, int64_t b2, int64_t& num, std::unique_ptr<Sh
   while (true) {
     out->Output(message);
     num = in->InputNumber();
-    out->Output("");
+    if (num <= b2 && num >= b1) {
+      return;
+    }
+  }
+}
+
+void Builder::GetBigInteger(const BigInteger& b1, const BigInteger& b2, BigInteger& num, std::unique_ptr<Show>& out,
+                          std::unique_ptr<Get>& in, const std::string& message) {
+  /// get number_ from [b1, b2]
+  while (true) {
+    out->Output(message);
+    num = BigInteger(std::move(in->InputString()));
     if (num <= b2 && num >= b1) {
       return;
     }
@@ -26,7 +36,7 @@ void Builder::GetNumber(int64_t b1, int64_t b2, int64_t& num, std::unique_ptr<Sh
 }
 
 std::shared_ptr<Account> Builder::BuildAccount(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, const Date& system_date,
-                               size_t account_id, int64_t cred_lim, int64_t bank_fee) {
+                               size_t account_id, const BigInteger& cred_lim, const BigInteger& bank_fee) {
   int64_t type = 0;
   {
     std::string message = "Choose the type of account you want to create:\n"
@@ -48,9 +58,9 @@ std::shared_ptr<Account> Builder::BuildAccount(std::unique_ptr<Show>& out, std::
                              + Date(static_cast<int>(years), 0, 0)).MakeAccount(account_id, money, system_date)};
   }
 
-  int64_t money = -1;
+  BigInteger money = -1;
   std::string message = "How much money you are ready to invest:";
-  GetNumber(0, INT64_MAX, money, out, in, message);
+  GetBigInteger(0, BigInteger(std::string(100, '9')), money, out, in, message);
 
   if (type == 2) {
     /// Debit account
@@ -73,16 +83,16 @@ Bank Builder::BuildBank(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in,
       not_found = false;
     }
   }
-  message = "What credit limit do you want to set? (>= 0)";
-  int64_t limit;
-  GetNumber(0, 10'000'000'000, limit, out, in, message);
+  message = "What credit limit do you want to set? (not less than 0)";
+  BigInteger limit;
+  GetBigInteger(0, BigInteger("1" + std::string(100, '0')), limit, out, in, message);
   limit *= -1;
 
-  message = "What bank fee do you want to set? (no more than (limit / 5) )";
-  int64_t fee;
-  GetNumber(0, (-limit) / 5 + 1, fee, out, in, message);
+  message = "What bank fee do you want to set? (no more than (limit / 5))";
+  BigInteger fee;
+  GetBigInteger(0, (-limit) / 5 + 1, fee, out, in, message);
 
-  message = "What deposite percent do you want to set?";
+  message = "What deposit percent do you want to set? (from 0% to 10'000%)";
   int64_t percent;
   GetNumber(0, 10'000, percent, out, in, message);
 
@@ -92,11 +102,11 @@ Bank Builder::BuildBank(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in,
 Client Builder::BuildClient(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, size_t id) {
   Passport passport = BuildPassport(out, in);
 
-  int64_t password;
+  std::string password;
   std::string message = "What password would you use? (use number_ from -10^9 to 10^9).\nPlease remember it.";
-  GetNumber(-1'000'000'000, 1'000'000'000, password, out, in, message);
+  GetFilledString(password, out, in, message);
 
-  return {id, password, passport};
+  return {id, std::move(password), passport};
 }
 
 Passport Builder::BuildPassport(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in) {
@@ -118,19 +128,16 @@ Passport Builder::BuildPassport(std::unique_ptr<Show>& out, std::unique_ptr<Get>
   while (!(number >= -1 && number < 10'000)) {
     out->Output(message);
     number = static_cast<int>(in->InputNumber());
-    out->Output("");
   }
 
   message = "Enter your passport series (optional, write -1 to skip)";
   while (!(series >= -1 && series < 1'000'000)) {
     out->Output(message);
     series = static_cast<int>(in->InputNumber());
-    out->Output("");
   }
 
   out->Output("Enter your address (without spaces, use commas), (optional, write 0 to skip):");
   address = in->InputString();
-  out->Output("");
 
   return {number, series, std::move(name), std::move(surname), std::move(address)};
 }
@@ -144,13 +151,13 @@ Request Builder::BuildRequest(std::unique_ptr<Show>& out, std::unique_ptr<Get>& 
 }
 
 Worker Builder::BuildWorker(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, size_t id) {
-  int64_t password;
+  std::string password;
   std::string message = "What password would you use? (use number_ from -10^9 to 10^9).\nPlease remember it.";
-  GetNumber(-1'000'000'000, 1'000'000'000, password, out, in, message);
+  GetFilledString(password, out, in, message);
 
   out->Output("Thank you! Your id is :");
   out->Output(static_cast<int64_t>(id));
   out->Output("Please write it down and don't lose.");
 
-  return {id, password};
+  return {id, std::move(password)};
 }

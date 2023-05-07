@@ -1,5 +1,10 @@
 #include "JsonDBAccounts.h"
 
+BigInteger JsonDBAccounts::GetBigintFromJson(const json& str) {
+  std::string dirty_string = str.dump();
+  return BigInteger{dirty_string.substr(1, dirty_string.size() - 2)};
+}
+
 void JsonDBAccounts::WriteAccount(const std::string& bank_name, size_t user_id, std::shared_ptr<Account> account) {
   if (!account) {
     std::cerr << "Invalid pointer in WriteAccount json" << std::endl;
@@ -10,7 +15,7 @@ void JsonDBAccounts::WriteAccount(const std::string& bank_name, size_t user_id, 
   }
   Date d1 = account->GetOpenDate();
   Date d2 = account->GetLastUsageDate();
-  json account_info = json::array({account->GetType(), account->GetAccountId(), account->GetBalance(),
+  json account_info = json::array({account->GetType(), account->GetAccountId(), account->GetBalance().toString(),
                                   d1.GetYear(), d1.GetMonth(), d1.GetDay(),
                                   d2.GetYear(), d2.GetMonth(), d2.GetDay()});
 
@@ -27,7 +32,7 @@ void JsonDBAccounts::WriteAccount(const std::string& bank_name, size_t user_id, 
   */
 
   if (account->GetType() == Account::Type::Deposit) {
-    DepositAccount* acc(dynamic_cast<DepositAccount*>(account.get()));
+    auto* acc(dynamic_cast<DepositAccount*>(account.get()));
 
     /*      Deposit account indexes in json:
      *
@@ -58,9 +63,9 @@ void JsonDBAccounts::WriteAccount(const std::string& bank_name, size_t user_id, 
      *
      */
 
-    CreditAccount* acc(dynamic_cast<CreditAccount*>(account.get()));
-    account_info.push_back(acc->GetCreditLimit());
-    account_info.push_back(acc->GetBankFee());
+    auto* acc(dynamic_cast<CreditAccount*>(account.get()));
+    account_info.push_back(acc->GetCreditLimit().toString());
+    account_info.push_back(acc->GetBankFee().toString());
   }
   std::string working_path = "Data/" + bank_name;
   Filesystem::CheckDirectory(working_path);
@@ -94,7 +99,7 @@ void JsonDBAccounts::WriteAccount(const std::string& bank_name, size_t user_id, 
   f_out.close();
 }
 
-void JsonDBAccounts::WriteAccounts(const std::string& bank_name, size_t user_id, const std::vector<Account*>& accounts) {
+void JsonDBAccounts::WriteAccounts(const std::string& bank_name, size_t user_id, const std::vector<std::shared_ptr<Account>>& accounts) {
   for (size_t i = 0; i < accounts.size(); ++i) {
     WriteAccount(bank_name, user_id, std::shared_ptr<Account>(accounts[i]));
   }
@@ -119,21 +124,21 @@ std::shared_ptr<Account> JsonDBAccounts::GetAccount(const std::string& bank_name
         Date last_date(accounts[i][6], accounts[i][7], accounts[i][8]);
         if (accounts[i][0] == Account::Type::Credit) {
           return std::shared_ptr<Account>{dynamic_cast<Account*>(new CreditAccount(account_id,
-                                                               accounts[i][2],
-                                                               accounts[i][9],
-                                                               accounts[i][10],
+                                                               GetBigintFromJson(accounts[i][2]),
+                                                               GetBigintFromJson(accounts[i][9]),
+                                                               GetBigintFromJson(accounts[i][10]),
                                                                open_date,
                                                                last_date))};
         } else if (accounts[i][0] == Account::Type::Deposit) {
           Date finish_date(accounts[i][9], accounts[i][10], accounts[i][11]);
           return std::shared_ptr<Account>{dynamic_cast<Account*>(new DepositAccount(account_id,
-                                                                accounts[i][2],
+                                                                GetBigintFromJson(accounts[i][2]),
                                                                 finish_date,
                                                                 open_date,
                                                                 last_date))};
         } else {
           return std::shared_ptr<Account>{dynamic_cast<Account*>(new DebitAccount(account_id,
-                                                              accounts[i][2],
+                                                              GetBigintFromJson(accounts[i][2]),
                                                               open_date,
                                                               last_date))};
         }
@@ -156,14 +161,18 @@ std::vector<std::shared_ptr<Account>> JsonDBAccounts::GetUserAccounts(const std:
     Date open_date(accounts[i][3], accounts[i][4], accounts[i][5]);
     Date last_date(accounts[i][6], accounts[i][7], accounts[i][8]);
     if (accounts[i][0] == Account::Type::Credit) {
-      res.push_back(std::shared_ptr<Account>{dynamic_cast<Account*>(new CreditAccount(accounts[i][1], accounts[i][2], accounts[i][9],
-                                      accounts[i][10], open_date, last_date))});
+      res.push_back(std::shared_ptr<Account>{dynamic_cast<Account*>(new CreditAccount(accounts[i][1], GetBigintFromJson(accounts[i][2]),
+                                                                                      GetBigintFromJson(accounts[i][9]),
+                                                                                      GetBigintFromJson(accounts[i][10]),
+                                                                                      open_date, last_date))});
     } else if (accounts[i][0] == Account::Type::Deposit) {
       Date finish_date(accounts[i][9], accounts[i][10], accounts[i][11]);
-      res.push_back(std::shared_ptr<Account>{dynamic_cast<Account*>(new DepositAccount(accounts[i][1], accounts[i][2],
-                                       finish_date, open_date, last_date))});
+      res.push_back(std::shared_ptr<Account>{dynamic_cast<Account*>(new DepositAccount(accounts[i][1], GetBigintFromJson(accounts[i][2]),
+                                                                                      finish_date, open_date, last_date))});
     } else {
-      res.push_back(std::shared_ptr<Account>{dynamic_cast<Account*>(new DebitAccount(accounts[i][1], accounts[i][2], open_date, last_date))});
+      res.push_back(std::shared_ptr<Account>{dynamic_cast<Account*>(new DebitAccount(accounts[i][1],
+                                                                                      GetBigintFromJson(accounts[i][2]),
+                                                                                      open_date, last_date))});
     }
   }
   return res;

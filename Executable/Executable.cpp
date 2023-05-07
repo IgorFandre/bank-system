@@ -133,7 +133,7 @@ void Executable::MainMenu() {
 
 void Executable::VisitorSession() {
   int64_t id;
-  int64_t pas;
+  std::string pas;
   {
     std::string message = "Enter your id (enter -1 to exit) :";
     Builder::GetNumber(-1, 10'000, id, out_, in_, message);
@@ -143,7 +143,7 @@ void Executable::VisitorSession() {
     }
     message = "Enter your password: ";
     out_->Output(message);
-    pas = in_->InputNumber();
+    pas = in_->InputString();
   }
   std::shared_ptr<Client> client = clients_->GetClient(bank_name_, id);
   if (!client) {
@@ -194,14 +194,14 @@ void Executable::ShowAccounts(size_t client_id) const {
   for (const auto& account : accounts) {
     std::string acc_type = " ( ";
     if (account->GetType() == Account::Type::Credit) {
-      acc_type += "Credit account (minimum is " + std::to_string(bank_->GetCreditLimit()) + ") )";
+      acc_type += "Credit account (minimum is " + bank_->GetCreditLimit().toString() + ") )";
     } else if (account->GetType() == Account::Type::Deposit) {
       acc_type += "Deposit account )";
     } else {
       acc_type += "Debit account )";
     }
     std::string acc_info = "Id: " + std::to_string(account->GetAccountId())
-        + "    Money: " + std::to_string(account->GetBalance()) + acc_type;
+        + "    Money: " + account->GetBalance().toString() + acc_type;
     out_->Output(acc_info);
   }
 }
@@ -253,7 +253,7 @@ void Executable::MakeTransaction() {
 
 void Executable::WorkerSession() {
   int64_t worker_id;
-  int64_t pas;
+  std::string pas;
   {
     std::string message = "Enter your worker id (enter -1 to exit) :";
     Builder::GetNumber(-1, 10'000, worker_id, out_, in_, message);
@@ -263,7 +263,7 @@ void Executable::WorkerSession() {
     }
     message = "Enter your password: ";
     out_->Output(message);
-    pas = in_->InputNumber();
+    pas = in_->InputString();
   }
   std::shared_ptr<Worker> worker = workers_->GetWorker(bank_name_, worker_id);
   if (worker == nullptr) {

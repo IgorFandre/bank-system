@@ -9,20 +9,20 @@ class AccountFabric {
  public:
   AccountFabric() = default;
   virtual ~AccountFabric() = default;
-  virtual std::shared_ptr<Account> MakeAccount(size_t id, int64_t money, const Date& system_date) = 0;
+  virtual std::shared_ptr<Account> MakeAccount(size_t id, const BigInteger& money, const Date& system_date) = 0;
 
 };
 
 
 class CreditFabric : public AccountFabric {
  public:
-  CreditFabric(int64_t credit_limit, int64_t bank_fee);
+  CreditFabric(const BigInteger& credit_limit, const BigInteger& bank_fee);
   ~CreditFabric() override = default;
-  std::shared_ptr<Account> MakeAccount(size_t id, int64_t money, const Date& system_date) override;
+  std::shared_ptr<Account> MakeAccount(size_t id, const BigInteger& money, const Date& system_date) override;
 
  private:
-  int64_t credit_limit_;
-  int64_t bank_fee_;
+  const BigInteger& credit_limit_;
+  const BigInteger& bank_fee_;
 
 };
 
@@ -31,7 +31,7 @@ class DebitFabric : public AccountFabric {
  public:
   DebitFabric() = default;
   ~DebitFabric() override = default;
-  std::shared_ptr<Account> MakeAccount(size_t id, int64_t money, const Date& system_date) override;
+  std::shared_ptr<Account> MakeAccount(size_t id, const BigInteger& money, const Date& system_date) override;
 
 };
 
@@ -40,7 +40,7 @@ class DepositFabric : public AccountFabric {
  public:
   explicit DepositFabric(const Date& finish);
   ~DepositFabric() override = default;
-  std::shared_ptr<Account> MakeAccount(size_t id, int64_t money, const Date& system_date) override;
+  std::shared_ptr<Account> MakeAccount(size_t id, const BigInteger& money, const Date& system_date) override;
 
  private:
   Date finish_;

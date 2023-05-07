@@ -1,7 +1,7 @@
 #include "Account.h"
 #include "DepositAccount.h"
 
-DepositAccount::DepositAccount(size_t id, int64_t money, Date finish, Date open_date, Date last_date)
+DepositAccount::DepositAccount(size_t id, const BigInteger& money, Date finish, Date open_date, Date last_date)
     : Account(id, money, Account::Type::Deposit, open_date, last_date), finish_date_(finish),
       reduce_money_(last_usage_date_ >= finish_date_)
 {}
@@ -13,7 +13,7 @@ void DepositAccount::Update(const Date& system_date) {
   }
 }
 
-bool DepositAccount::Transaction(int64_t money, const Date& system_date) {
+bool DepositAccount::Transaction(const BigInteger& money, const Date& system_date) {
   Update(system_date);
   if (reduce_money_ || money >= 0) {
     return Account::Transaction(money, system_date);
@@ -21,7 +21,7 @@ bool DepositAccount::Transaction(int64_t money, const Date& system_date) {
   return false;
 }
 
-Account* DepositAccount::DeepCopy() const {
-  return new DepositAccount(Account::account_id_, Account::account_money_, finish_date_,
-    open_date_, last_usage_date_);
+std::shared_ptr<Account> DepositAccount::DeepCopy() const {
+  return std::shared_ptr<Account>(new DepositAccount(Account::account_id_, Account::account_money_, finish_date_,
+    open_date_, last_usage_date_));
 }

@@ -19,4 +19,5 @@ struct Request {
   std::string bank_name;
   size_t user_id;
   std::string text;
+
 };

@@ -34,6 +34,8 @@ add_subdirectory(Filesystem)
 
 add_subdirectory(IOSystem)
 
+add_subdirectory(BigInteger)
+
 add_subdirectory(Request)
 add_dependencies(request filesystem)
 target_link_libraries(request filesystem)
@@ -47,18 +49,20 @@ add_dependencies(date filesystem)
 target_link_libraries(date filesystem)
 
 add_subdirectory(Account)
-add_dependencies(accounts date)
-target_link_libraries(accounts date)
+add_dependencies(accounts date bigint)
+target_link_libraries(accounts date bigint)
 
 add_subdirectory(Client)
-add_dependencies(client date)
-target_link_libraries(client date)
+add_dependencies(client date bigint)
+target_link_libraries(client date bigint)
 
 add_subdirectory(Bank)
+add_dependencies(bank bigint)
+target_link_libraries(bank bigint)
 
 add_subdirectory(Worker)
-add_dependencies(worker client date logger request)
-target_link_libraries(worker client date logger request)
+add_dependencies(worker client logger request)
+target_link_libraries(worker client logger request)
 
 add_subdirectory(Builder)
 add_dependencies(builder accounts bank io_system request worker)
@@ -90,6 +94,8 @@ set(TEST_SOURCES
         tests/TestCases/AccountTestCase/tests.cpp
 
         tests/TestCases/BankTestCase/tests.cpp
+
+        tests/TestCases/BigIntegerTestCase/tests.cpp
 
         tests/TestCases/ClientTestCase/tests_passport.cpp
 

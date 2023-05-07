@@ -19,8 +19,11 @@ class Builder {
   static void GetNumber(int64_t b1, int64_t b2, int64_t& num, std::unique_ptr<Show>& out,
                         std::unique_ptr<Get>& in, const std::string& message);
 
+  static void GetBigInteger(const BigInteger& b1, const BigInteger& b2, BigInteger& num, std::unique_ptr<Show>& out,
+                            std::unique_ptr<Get>& in, const std::string& message);
+
   static std::shared_ptr<Account> BuildAccount(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, const Date& system_date,
-                               size_t account_id, int64_t cred_lim, int64_t bank_fee);
+                               size_t account_id, const BigInteger& cred_lim, const BigInteger& bank_fee);
 
   static Bank BuildBank(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in,
                         std::unique_ptr<DataBaseBanks>& banks);

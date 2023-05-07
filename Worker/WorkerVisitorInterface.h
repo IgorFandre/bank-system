@@ -10,12 +10,12 @@ class WorkerVisitorInterface {
   WorkerVisitorInterface() = default;
   virtual ~WorkerVisitorInterface() = default;
 
-  virtual bool MakeVisit(const std::string& bank_name, const Worker& worker, int64_t password) = 0;
+  virtual bool MakeVisit(const std::string& bank_name, const Worker& worker, const std::string& password) = 0;
   virtual void Exit(const Date& system_date) = 0;
   virtual void CheckOldestRequest(std::unique_ptr<Show>& out, const Date& system_date) = 0;
   virtual bool BlockUser(size_t user_id, std::unique_ptr<DataBaseClients>& clients, const Date& system_date) = 0;
   virtual bool RestoreUser(size_t user_id, std::unique_ptr<DataBaseClients>& clients, const Date& system_date) = 0;
-  virtual bool CancelTransaction(size_t cl_id_1, size_t acc_id_1, size_t cl_id_2, size_t acc_id_2, int64_t money,
+  virtual bool CancelTransaction(size_t cl_id_1, size_t acc_id_1, size_t cl_id_2, size_t acc_id_2, const BigInteger& money,
                                  std::unique_ptr<DataBaseAccounts>& accounts, const Date& system_date) = 0;
 
 };

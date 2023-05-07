@@ -21,4 +21,6 @@ class JsonDBBanks : public DataBaseBanks {
   std::shared_ptr<Bank> GetBank(const std::string& bank_name) override;
   std::vector<std::shared_ptr<Bank>> GetBanks() override;
 
+ private:
+  static BigInteger GetBigintFromJson(const json& str);
 };

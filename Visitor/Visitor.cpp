@@ -2,7 +2,7 @@
 
 Visitor::Visitor() : bank_name_(), client_(), in_{false} {}
 
-bool Visitor::MakeVisit(std::string bank_name, size_t user_id, int64_t pas, std::unique_ptr<DataBaseClients>& clients) {
+bool Visitor::MakeVisit(const std::string& bank_name, size_t user_id, const std::string& pas, std::unique_ptr<DataBaseClients>& clients) {
   std::shared_ptr<Client> client = clients->GetClient(bank_name, user_id);
   if (!client->CheckPassword(pas)) {
     return false;
@@ -22,7 +22,7 @@ void Visitor::Exit() {
   in_ = false;
 }
 
-bool Visitor::OpenAccount(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, int64_t cred_lim, int64_t bank_fee,
+bool Visitor::OpenAccount(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, const BigInteger& cred_lim, const BigInteger& bank_fee,
                           std::unique_ptr<DataBaseAccounts>& accounts, size_t acc_id, const Date& system_date) {
   if (in_) {
     std::shared_ptr<Account> account = Builder::BuildAccount(out, in, system_date, acc_id, cred_lim, bank_fee);
@@ -33,7 +33,7 @@ bool Visitor::OpenAccount(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, 
     std::string log = "ID: " + std::to_string(client_.GetID()) + " (" + Date::StringDate(system_date)
         + "): Opened account " + std::to_string(account->GetAccountId()) + " ( "
         + std::to_string(static_cast<int>(account->GetType())) + " type ) with "
-        + std::to_string(account->GetBalance()) + " rubles";
+        + account->GetBalance().toString() + " rubles";
     logger.AddLog(log);
     accounts->WriteAccount(bank_name_, client_.GetID(), account);
   }
@@ -41,7 +41,7 @@ bool Visitor::OpenAccount(std::unique_ptr<Show>& out, std::unique_ptr<Get>& in, 
 }
 
 bool Visitor::MakeTransaction(size_t acc_id_1, size_t cl_id_2, size_t acc_id_2,
-                     int64_t money, std::unique_ptr<DataBaseAccounts>& accounts, const Date& system_date) {
+                              const BigInteger& money, std::unique_ptr<DataBaseAccounts>& accounts, const Date& system_date) {
   if (money < 0) {
     return false;
   }
@@ -61,7 +61,7 @@ bool Visitor::MakeTransaction(size_t acc_id_1, size_t cl_id_2, size_t acc_id_2,
     accounts->WriteAccount(bank_name_, cl_id_2, account_2);
     Logger logger(bank_name_, Logger::OperationType::Transaction);
     std::string log = "ID: " + std::to_string(client_.GetID()) + " (" + Date::StringDate(system_date) + "): "
-        + std::to_string(money) + " rubles from account " + std::to_string(acc_id_1) + " to account "
+        + money.toString() + " rubles from account " + std::to_string(acc_id_1) + " to account "
         + std::to_string(acc_id_2) + " (user id " + std::to_string(cl_id_2) + " )";
     logger.AddLog(log);
   }
