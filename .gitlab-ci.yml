@@ -1,0 +1,39 @@
+image: ubuntu:latest
+
+stages:
+  - format
+  - build
+  - test
+
+before_script:
+  - apt update
+  - apt install -y cmake git build-essential Libgtest-dev python3
+
+
+format:
+  stage: format
+  before_script:
+    - apt update
+    - apt install -y python3 git clang-format
+    - git clone https://github.com/Sarcasm/run-clang-format
+    - cp run-clang-format/run-clang-format.pyrun-clang-format.py
+    - rm -rf run-clang-format
+  script:
+    - python3 ./run-clang-format.py
+
+build:
+  stage: build
+  before_script:
+    - apt update
+    - apt install -y cmake build-essential Libgtest-dev
+  script:
+    - mkdir build && cd build
+    - cmake .. && make
+  artifacts:
+    paths:
+      - bin/TEST_BANK
+
+test:
+  stage: test
+  script:
+    - bin/TEST_BANK
