@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "../BigInteger/biginteger.h"
 #include "../DataBases/Interfaces/DataBaseAccounts.h"
 #include "../DataBases/Interfaces/DataBaseClients.h"
