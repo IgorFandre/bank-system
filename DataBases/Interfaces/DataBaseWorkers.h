@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "../../Worker/Worker.h"
 
 class DataBaseWorkers {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "../../Client/Client.h"
 
 class DataBaseClients {
