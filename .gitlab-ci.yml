@@ -14,7 +14,7 @@ format:
     - cp run-clang-format/run-clang-format.py run-clang-format.py
     - rm -rf run-clang-format
   script:
-    - python3 ./run-clang-format.py
+    - python3 run-clang-format.py
   tags:
     - common
     - cpu
