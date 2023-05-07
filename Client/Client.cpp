@@ -1,7 +1,7 @@
 #include "Client.h"
 
 Client::Client()
-      : user_id_(SIZE_T_MAX), user_password_(), passport_(), status_{passport_.GetPassportStatus()} {
+      : user_id_(), user_password_(), passport_(), status_{passport_.GetPassportStatus()} {
 }
 
 Client::Client(size_t user_id, std::string&& user_password, const Passport& passport)
