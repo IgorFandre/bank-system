@@ -5,11 +5,6 @@ stages:
   - build
   - test
 
-before_script:
-  - apt update
-  - apt install -y cmake git build-essential Libgtest-dev python3
-
-
 format:
   stage: format
   before_script:
@@ -20,6 +15,9 @@ format:
     - rm -rf run-clang-format
   script:
     - python3 ./run-clang-format.py
+  tags:
+    - common
+    - cpu
 
 build:
   stage: build
@@ -32,8 +30,14 @@ build:
   artifacts:
     paths:
       - bin/TEST_BANK
+  tags:
+    - common
+    - cpu
 
 test:
   stage: test
   script:
     - bin/TEST_BANK
+  tags:
+    - common
+    - cpu
