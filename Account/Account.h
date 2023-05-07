@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <limits.h>
 
 #include "../BigInteger/biginteger.h"
 #include "../Date/Date.h"

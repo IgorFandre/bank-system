@@ -1,5 +1,7 @@
 #pragma once
 
+#include <limits.h>
+
 #include "../IOSystem/IOInterface.h"
 #include "Passport.h"
 
