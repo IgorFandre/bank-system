@@ -24,7 +24,7 @@ build:
   stage: build
   before_script:
     - apt update
-    - apt install -y cmake build-essential Libgtest-dev
+    - apt install -y cmake build-essential libgtest-dev
   script:
     - mkdir build && cd build
     - cmake .. && make
