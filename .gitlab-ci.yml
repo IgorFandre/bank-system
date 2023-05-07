@@ -28,9 +28,10 @@ build:
   script:
     - mkdir build && cd build
     - cmake .. && make
+    - mv bin/TEST_BANK .
   artifacts:
     paths:
-      - bin/TEST_BANK
+      - TEST_BANK
   tags:
     - common
     - cpu
@@ -38,7 +39,7 @@ build:
 test:
   stage: test
   script:
-    - bin/TEST_BANK
+    - ./TEST_BANK
   tags:
     - common
     - cpu
