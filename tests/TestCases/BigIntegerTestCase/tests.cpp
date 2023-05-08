@@ -57,7 +57,7 @@ TEST(TEST_BIGINT, hard_test) {
 
   oss5 << (a != b) << ' ' << (a < b) << ' ' << (a > b) << ' ';
   oss5 << (a <= b) << ' ' << (a >= b);
-  ASSERT_EQ(oss5.str(), "1 501 1000 1 0 1 0 1") ;
+  ASSERT_EQ(oss5.str(), "1 501 1000 1 0 1 0 1");
 
   std::istringstream iss2("1000000000000000000000000000000000 -1000000");
   iss2 >> a >> b;
@@ -81,21 +81,24 @@ TEST(TEST_BIGINT, hard_test) {
 
   oss7 << a + b << ' ' << c + d << ' ' << e + f;
 
-  ASSERT_EQ(oss7.str(),
+  ASSERT_EQ(
+      oss7.str(),
       "999999999999999999999999999000000 "
       "453234523694533286555610284470579736866970504670781579867141 "
       "8888888888884444444420898756778383332222222222212111122221777877777");
 
   std::ostringstream oss8;
   oss8 << a - b << ' ' << c - d << ' ' << e - f;
-  ASSERT_EQ(oss8.str(),
+  ASSERT_EQ(
+      oss8.str(),
       "1000000000000000000000000001000000 "
       "453234523225486382486364184725889267825003554020091111401985 "
       "-8888888888884444444467967909888283332222222222232111102223777677777");
 
   std::ostringstream oss9;
   oss9 << a * b << ' ' << c * d << ' ' << e * f;
-  ASSERT_EQ(oss9.str(),
+  ASSERT_EQ(
+      oss9.str(),
       "-1000000000000000000000000000000000000000 "
       "106294125023108851855435239407742287054686671354449187194200406809777590"
       "661604024572718537860109672117737393414 "
@@ -109,14 +112,14 @@ TEST(TEST_BIGINT, hard_test) {
   std::ostringstream oss11;
   oss11 << a % b << ' ' << c % d << ' ' << e % f;
   ASSERT_EQ(oss11.str(),
-      "0 101894444317458440603421824036688159663989325253819 "
-      "-23534576554950000000000000009999990000999900000");
+            "0 101894444317458440603421824036688159663989325253819 "
+            "-23534576554950000000000000009999990000999900000");
 }
 
 TEST(TEST_BIGINT, random_test) {
   std::random_device dev;
   std::mt19937 rnd(dev());
-  std::uniform_int_distribution<std::mt19937::result_type> number(1,999'999);
+  std::uniform_int_distribution<std::mt19937::result_type> number(1, 999'999);
 
   size_t count = 3000;
 
@@ -150,7 +153,8 @@ TEST(TEST_BIGINT, random_test) {
 TEST(TEST_BIGINT, long_divide_test) {
   std::random_device dev;
   std::mt19937 rnd(dev());
-  std::uniform_int_distribution<std::mt19937::result_type> number(1,9); // distribution in range [1, 9]
+  std::uniform_int_distribution<std::mt19937::result_type> number(
+      1, 9); // distribution in range [1, 9]
 
   std::string first{};
   std::string second{};
@@ -160,9 +164,14 @@ TEST(TEST_BIGINT, long_divide_test) {
   for (size_t j = 0; j < 5'000; ++j) {
     second += static_cast<char>('0' + number(rnd));
   }
-  std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+  std::chrono::steady_clock::time_point begin =
+      std::chrono::steady_clock::now();
   BigInteger(first) / BigInteger(second);
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-  std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << " [µs]" << std::endl;
-  ASSERT_TRUE(std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() < 10'000);
+  std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end -
+                                                                     begin)
+                   .count()
+            << " [µs]" << std::endl;
+  ASSERT_TRUE(std::chrono::duration_cast<std::chrono::milliseconds>(end - begin)
+                  .count() < 10'000);
 }

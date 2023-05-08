@@ -4,16 +4,17 @@
 #include <memory>
 
 class Worker {
- public:
-  Worker(size_t worker_id, std::string&& worker_password);
+public:
+  Worker(size_t worker_id, std::string &&worker_password);
 
-  [[nodiscard]] bool CheckPassword(const std::string& password) const;
+  [[nodiscard]] bool CheckPassword(const std::string &password) const;
 
   [[nodiscard]] inline size_t GetId() const { return worker_id_; }
-  [[nodiscard]] inline const std::string& GetPassword() const { return worker_password_; }
+  [[nodiscard]] inline const std::string &GetPassword() const {
+    return worker_password_;
+  }
 
- private:
+private:
   size_t worker_id_;
   std::string worker_password_;
-
 };

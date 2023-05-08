@@ -2,7 +2,7 @@
 
 void ConsoleGet::ClearInput() {
   std::cin.clear();
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 int64_t ConsoleGet::InputNumber() {
@@ -19,12 +19,8 @@ std::string ConsoleGet::InputString() {
   return string;
 }
 
+void ConsoleShow::Output(int64_t number) { std::cout << number << std::endl; }
 
-
-void ConsoleShow::Output(int64_t number) {
-  std::cout << number << std::endl;
-}
-
-void ConsoleShow::Output(const std::string& string) {
+void ConsoleShow::Output(const std::string &string) {
   std::cout << string << std::endl;
 }

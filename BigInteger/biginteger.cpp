@@ -1,6 +1,6 @@
 #include "biginteger.h"
 
-bool BigInteger::AbsLess(const BigInteger& b) const {
+bool BigInteger::AbsLess(const BigInteger &b) const {
   if (sign_ == Sign::Zero) {
     if (b.sign_ == Sign::Zero) {
       return false;
@@ -24,7 +24,7 @@ bool BigInteger::AbsLess(const BigInteger& b) const {
   return false;
 }
 
-bool operator<(const BigInteger& b1, const BigInteger& b2) {
+bool operator<(const BigInteger &b1, const BigInteger &b2) {
   if (static_cast<int>(b1.GetSign()) < static_cast<int>(b2.GetSign())) {
     return true;
   }
@@ -36,21 +36,13 @@ bool operator<(const BigInteger& b1, const BigInteger& b2) {
   }
   return b1.AbsLess(b2);
 }
-bool operator!=(const BigInteger& a, const BigInteger& b) {
+bool operator!=(const BigInteger &a, const BigInteger &b) {
   return (a < b) || (b < a);
 }
-bool operator==(const BigInteger& a, const BigInteger& b) {
-  return !(a != b);
-}
-bool operator<=(const BigInteger& a, const BigInteger& b) {
-  return !(b < a);
-}
-bool operator>(const BigInteger& a, const BigInteger& b) {
-  return b < a;
-}
-bool operator>=(const BigInteger& a, const BigInteger& b) {
-  return !(a < b);
-}
+bool operator==(const BigInteger &a, const BigInteger &b) { return !(a != b); }
+bool operator<=(const BigInteger &a, const BigInteger &b) { return !(b < a); }
+bool operator>(const BigInteger &a, const BigInteger &b) { return b < a; }
+bool operator>=(const BigInteger &a, const BigInteger &b) { return !(a < b); }
 
 void BigInteger::AddZeros(size_t nulls) {
   EraseLeadZeros();
@@ -70,10 +62,11 @@ void BigInteger::DeleteZeros(size_t nulls) {
   std::reverse(integer_.begin(), integer_.end());
 }
 
-void BigInteger::Add(const BigInteger& b) {
+void BigInteger::Add(const BigInteger &b) {
   int64_t move = 0;
   std::vector<int64_t> new_int;
-  size_t n = (integer_.size() > b.integer_.size()) ? integer_.size() : b.integer_.size();
+  size_t n = (integer_.size() > b.integer_.size()) ? integer_.size()
+                                                   : b.integer_.size();
   for (size_t i = 0; i < n; ++i) {
     if (i < integer_.size()) {
       move += integer_[i];
@@ -90,7 +83,7 @@ void BigInteger::Add(const BigInteger& b) {
   integer_ = new_int;
 }
 
-void BigInteger::Substract(const BigInteger& b) {
+void BigInteger::Substract(const BigInteger &b) {
   int64_t move = 0;
   std::vector<int64_t> new_int;
   for (size_t i = 0; i < integer_.size(); ++i) {
@@ -163,9 +156,7 @@ void BigInteger::EraseLeadZeros() {
   }
 }
 
-void BigInteger::Abs() {
-  sign_ = Sign(abs(int(sign_)));
-}
+void BigInteger::Abs() { sign_ = Sign(abs(int(sign_))); }
 
 void BigInteger::Clear() {
   sign_ = Sign::Zero;
@@ -189,8 +180,7 @@ BigInteger::BigInteger(std::string str) : integer_() {
     idx -= kBaseSymbols;
   }
   if (stoi(str.substr(0, idx)) != 0) {
-    integer_.push_back(
-        stoi(str.substr(0, idx)));
+    integer_.push_back(stoi(str.substr(0, idx)));
   }
   EraseLeadZeros();
 }
@@ -236,11 +226,11 @@ BigInteger::BigInteger(size_t n, char sign) : integer_() {
     n /= kBase;
   } while (n != 0);
 }
-BigInteger::BigInteger(const BigInteger& b) {
+BigInteger::BigInteger(const BigInteger &b) {
   integer_ = b.integer_;
   sign_ = b.sign_;
 }
-BigInteger::BigInteger(const std::vector<int64_t>& numbers, Sign sign) {
+BigInteger::BigInteger(const std::vector<int64_t> &numbers, Sign sign) {
   sign_ = sign;
   integer_ = numbers;
 }
@@ -272,10 +262,8 @@ BigInteger::operator double() const {
   }
   return bigint;
 }
-BigInteger::operator bool() const {
-  return static_cast<bool>(sign_);
-}
-BigInteger& BigInteger::operator+=(const BigInteger& b) {
+BigInteger::operator bool() const { return static_cast<bool>(sign_); }
+BigInteger &BigInteger::operator+=(const BigInteger &b) {
   if (b.sign_ == Sign::Zero) {
     return *this;
   }
@@ -296,11 +284,11 @@ BigInteger& BigInteger::operator+=(const BigInteger& b) {
   }
   return *this;
 }
-BigInteger& BigInteger::operator-=(const BigInteger& b) {
+BigInteger &BigInteger::operator-=(const BigInteger &b) {
   *this += (-b);
   return *this;
 }
-BigInteger& BigInteger::operator*=(const BigInteger& b) {
+BigInteger &BigInteger::operator*=(const BigInteger &b) {
   if (b.sign_ == Sign::Zero || sign_ == Sign::Zero) {
     Clear();
     return *this;
@@ -333,13 +321,13 @@ BigInteger& BigInteger::operator*=(const BigInteger& b) {
   EraseLeadZeros();
   return *this;
 }
-BigInteger& BigInteger::operator/=(const BigInteger& b) {
+BigInteger &BigInteger::operator/=(const BigInteger &b) {
   sign_ = Sign(static_cast<int>(sign_) * static_cast<int>(b.sign_));
   Divide(b, true);
   return *this;
 }
 
-BigInteger& BigInteger::operator%=(const BigInteger& b) {
+BigInteger &BigInteger::operator%=(const BigInteger &b) {
   Divide(b, false);
   return *this;
 }
@@ -348,7 +336,7 @@ BigInteger BigInteger::operator-() const {
   copy.sign_ = Sign(static_cast<int>(sign_) * (-1));
   return copy;
 }
-BigInteger& BigInteger::operator++() {
+BigInteger &BigInteger::operator++() {
   *this += 1;
   return *this;
 }
@@ -357,7 +345,7 @@ BigInteger BigInteger::operator++(int) {
   *this += 1;
   return copy;
 }
-BigInteger& BigInteger::operator--() {
+BigInteger &BigInteger::operator--() {
   *this -= 1;
   return *this;
 }
@@ -366,21 +354,11 @@ BigInteger BigInteger::operator--(int) {
   *this -= 1;
   return copy;
 }
-BigInteger operator*(BigInteger b1, const BigInteger& b2) {
-  return (b1 *= b2);
-}
-BigInteger operator+(BigInteger b1, const BigInteger& b2) {
-  return (b1 += b2);
-}
-BigInteger operator/(BigInteger b1, const BigInteger& b2) {
-  return (b1 /= b2);
-}
-BigInteger operator-(BigInteger b1, const BigInteger& b2) {
-  return (b1 -= b2);
-}
-BigInteger operator%(BigInteger b1, const BigInteger& b2) {
-  return (b1 %= b2);
-}
+BigInteger operator*(BigInteger b1, const BigInteger &b2) { return (b1 *= b2); }
+BigInteger operator+(BigInteger b1, const BigInteger &b2) { return (b1 += b2); }
+BigInteger operator/(BigInteger b1, const BigInteger &b2) { return (b1 /= b2); }
+BigInteger operator-(BigInteger b1, const BigInteger &b2) { return (b1 -= b2); }
+BigInteger operator%(BigInteger b1, const BigInteger &b2) { return (b1 %= b2); }
 std::string BigInteger::toString() const {
   std::string res;
   if (sign_ == BigInteger::Sign::Zero || integer_.empty()) {
@@ -396,19 +374,17 @@ std::string BigInteger::toString() const {
   }
   return res;
 }
-std::ostream& operator<<(std::ostream& out, const BigInteger& b) {
+std::ostream &operator<<(std::ostream &out, const BigInteger &b) {
   out << b.toString();
   return out;
 }
-std::istream& operator>>(std::istream& in, BigInteger& b) {
+std::istream &operator>>(std::istream &in, BigInteger &b) {
   std::string s;
   in >> s;
   b = BigInteger(s);
   return in;
 }
-BigInteger operator ""_bi(unsigned long long number) {
-  return {number, true};
-}
-BigInteger operator ""_bi(const char* str) {
+BigInteger operator""_bi(unsigned long long number) { return {number, true}; }
+BigInteger operator""_bi(const char *str) {
   return BigInteger(std::string(str));
 }

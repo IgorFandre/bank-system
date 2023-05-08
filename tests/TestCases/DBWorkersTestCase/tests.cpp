@@ -27,9 +27,9 @@ TEST_F(DBWORKERS_TEST_CASE, functional_test_write_read) {
 
   Worker worker(worker_id, "123");
   workers_bd->WriteWorker(cur_test_bank_name, bank_password, worker);
-  std::shared_ptr<Worker> got_wk = workers_bd->GetWorker(cur_test_bank_name, worker_id);
-  ASSERT_TRUE(got_wk.get() != nullptr &&
-              worker.GetId() == got_wk->GetId() &&
+  std::shared_ptr<Worker> got_wk =
+      workers_bd->GetWorker(cur_test_bank_name, worker_id);
+  ASSERT_TRUE(got_wk.get() != nullptr && worker.GetId() == got_wk->GetId() &&
               worker.GetPassword() == got_wk->GetPassword());
 }
 
@@ -41,13 +41,15 @@ TEST_F(DBWORKERS_TEST_CASE, functional_test_delete) {
   Worker worker(1, "123");
   workers_bd->WriteWorker(cur_test_bank_name, bank_password, worker);
 
-  std::shared_ptr<Worker> got_wk_1 = workers_bd->GetWorker(cur_test_bank_name, worker_id);
+  std::shared_ptr<Worker> got_wk_1 =
+      workers_bd->GetWorker(cur_test_bank_name, worker_id);
   ASSERT_TRUE(got_wk_1.get() != nullptr &&
-      worker.GetId() == got_wk_1->GetId() &&
-      worker.GetPassword() == got_wk_1->GetPassword());
+              worker.GetId() == got_wk_1->GetId() &&
+              worker.GetPassword() == got_wk_1->GetPassword());
 
   workers_bd->DeleteWorker(cur_test_bank_name, bank_password, worker_id);
 
-  std::shared_ptr<Worker> got_wk_2 = workers_bd->GetWorker(cur_test_bank_name, worker_id);
+  std::shared_ptr<Worker> got_wk_2 =
+      workers_bd->GetWorker(cur_test_bank_name, worker_id);
   ASSERT_TRUE(got_wk_2.get() == nullptr);
 }

@@ -1,6 +1,7 @@
 #include "JsonDBWorkers.h"
 
-void JsonDBWorkers::AddNewBank(const std::string& bank_name, const std::string& sudo_pas) {
+void JsonDBWorkers::AddNewBank(const std::string &bank_name,
+                               const std::string &sudo_pas) {
   std::string working_path = "Data/" + bank_name;
   Filesystem::CheckDirectory(working_path);
   working_path += "/workers.json";
@@ -11,15 +12,17 @@ void JsonDBWorkers::AddNewBank(const std::string& bank_name, const std::string& 
   f_out.close();
 }
 
-bool JsonDBWorkers::WriteWorker(const std::string& bank_name, const std::string& sudo_pas, const Worker& worker) {
+bool JsonDBWorkers::WriteWorker(const std::string &bank_name,
+                                const std::string &sudo_pas,
+                                const Worker &worker) {
   json worker_info = json::array({worker.GetId(), worker.GetPassword()});
 
   /*      Worker's indexes in json:
-  *
-  * 0 - Worker id
-  * 1 - Worker password
-  *
-  */
+   *
+   * 0 - Worker id
+   * 1 - Worker password
+   *
+   */
 
   std::string working_path = "Data/" + bank_name;
   Filesystem::CheckDirectory(working_path);
@@ -58,7 +61,9 @@ bool JsonDBWorkers::WriteWorker(const std::string& bank_name, const std::string&
   return true;
 }
 
-bool JsonDBWorkers::DeleteWorker(const std::string& bank_name, const std::string& sudo_pas, size_t worker_id) {
+bool JsonDBWorkers::DeleteWorker(const std::string &bank_name,
+                                 const std::string &sudo_pas,
+                                 size_t worker_id) {
   std::string working_path = "Data/" + bank_name;
   Filesystem::CheckDirectory(working_path);
   working_path += "/workers.json";
@@ -92,7 +97,8 @@ bool JsonDBWorkers::DeleteWorker(const std::string& bank_name, const std::string
   f_out.close();
   return true;
 }
-std::shared_ptr<Worker> JsonDBWorkers::GetWorker(const std::string& bank_name, size_t worker_id) {
+std::shared_ptr<Worker> JsonDBWorkers::GetWorker(const std::string &bank_name,
+                                                 size_t worker_id) {
   std::string working_path = "Data/" + bank_name;
   Filesystem::CheckDirectory(working_path);
   working_path += "/workers.json";

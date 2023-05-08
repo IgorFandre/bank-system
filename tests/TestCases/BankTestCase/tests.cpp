@@ -1,16 +1,16 @@
-#include <gtest/gtest.h>
 #include "../../../Bank/Bank.h"
+#include <gtest/gtest.h>
 
 TEST(TEST_BANK, check_copy) {
   Bank bank_1{"igor_bank", -10, 5, 1};
   Bank bank_2(bank_1);
-  ASSERT_EQ(bank_1.GetName(),             bank_2.GetName());
-  ASSERT_EQ(bank_1.GetBankFee(),          bank_2.GetBankFee());
-  ASSERT_EQ(bank_1.GetDepositPercent(),   bank_2.GetDepositPercent());
-  ASSERT_EQ(bank_1.GetCreditLimit(),      bank_2.GetCreditLimit());
-  ASSERT_EQ(bank_1.GetAccountID_CONST(),  bank_2.GetAccountID_CONST());
-  ASSERT_EQ(bank_1.GetClientID_CONST(),   bank_2.GetClientID_CONST());
-  ASSERT_EQ(bank_1.GetWorkerID_CONST(),   bank_2.GetWorkerID_CONST());
+  ASSERT_EQ(bank_1.GetName(), bank_2.GetName());
+  ASSERT_EQ(bank_1.GetBankFee(), bank_2.GetBankFee());
+  ASSERT_EQ(bank_1.GetDepositPercent(), bank_2.GetDepositPercent());
+  ASSERT_EQ(bank_1.GetCreditLimit(), bank_2.GetCreditLimit());
+  ASSERT_EQ(bank_1.GetAccountID_CONST(), bank_2.GetAccountID_CONST());
+  ASSERT_EQ(bank_1.GetClientID_CONST(), bank_2.GetClientID_CONST());
+  ASSERT_EQ(bank_1.GetWorkerID_CONST(), bank_2.GetWorkerID_CONST());
 }
 
 TEST(TEST_BANK, check_id_increment) {

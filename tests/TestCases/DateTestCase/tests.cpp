@@ -43,9 +43,10 @@ TEST(TEST_DATE, string_date) {
 }
 
 /* // Uncomment, if you want to execute the test.
-TEST(TEST_DATE, real_date_NEED_YOUR_ATTENTION_TO_PASS) { // Test system date getter. Needs to be configured by you.
-  Date date{};
+TEST(TEST_DATE, real_date_NEED_YOUR_ATTENTION_TO_PASS) { // Test system date
+getter. Needs to be configured by you. Date date{};
   DateSetter::StartSession(date, false);
-  ASSERT_EQ(Date::StringDate(date), "24.04.2023"); // Enter current date in format "00.00.0000".
+  ASSERT_EQ(Date::StringDate(date), "24.04.2023"); // Enter current date in
+format "00.00.0000".
 }
 */

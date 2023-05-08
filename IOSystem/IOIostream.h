@@ -1,24 +1,19 @@
 #pragma once
 
-#include <limits>
 #include "IOInterface.h"
+#include <limits>
 
 class ConsoleGet : public Get {
 
   void ClearInput();
 
- public:
-
+public:
   int64_t InputNumber() override;
   std::string InputString() override;
-
 };
 
-
 class ConsoleShow : public Show {
- public:
-
+public:
   void Output(int64_t number) override;
-  void Output(const std::string& string) override;
-
+  void Output(const std::string &string) override;
 };

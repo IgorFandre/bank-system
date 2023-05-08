@@ -1,6 +1,6 @@
 #include "Logger.h"
 
-Logger::Logger(const std::string& bank, OperationType op) {
+Logger::Logger(const std::string &bank, OperationType op) {
   if (bank.empty()) {
     throw std::invalid_argument("logger got empty bank name");
   }
@@ -19,7 +19,8 @@ Logger::Logger(const std::string& bank, OperationType op) {
     } else {
       working_file_ += "transaction_logs.txt";
     }
-    if (!Filesystem::CheckFile(working_file_) && op == OperationType::OpenAccount) {
+    if (!Filesystem::CheckFile(working_file_) &&
+        op == OperationType::OpenAccount) {
       std::string start_message = "Types of accounts:\n"
                                   "1 - Credit account\n"
                                   "2 - Deposit account\n"
@@ -31,7 +32,7 @@ Logger::Logger(const std::string& bank, OperationType op) {
   }
 }
 
-void Logger::AddLog(const std::string& log) {
+void Logger::AddLog(const std::string &log) {
   std::ofstream f_logs(working_file_, std::ios::app);
   f_logs << log << "\n";
   f_logs.close();

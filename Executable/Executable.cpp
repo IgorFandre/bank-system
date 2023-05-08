@@ -1,18 +1,18 @@
 #include "Executable.h"
 
 Executable::Executable()
-    : mode_(Mode::BankMenu),
-      system_date(),
-      bank_name_(),
-      bank_(nullptr),
-      visitor_(new Visitor()),
-      worker_visitor_(new WorkerVisitor()),
-      accounts_(dynamic_cast<DataBaseAccounts*>(new JsonDBAccounts())),
-      banks_(dynamic_cast<DataBaseBanks*>(new JsonDBBanks())),
-      clients_(dynamic_cast<DataBaseClients*>(new JsonDBClients())),
-      workers_(dynamic_cast<DataBaseWorkers*>(new JsonDBWorkers())),
-      out_(dynamic_cast<Show*>(new ConsoleShow())),
-      in_(dynamic_cast<Get*>(new ConsoleGet())) {
+    : mode_(Mode::BankMenu)
+    , system_date()
+    , bank_name_()
+    , bank_(nullptr)
+    , visitor_(new Visitor())
+    , worker_visitor_(new WorkerVisitor())
+    , accounts_(dynamic_cast<DataBaseAccounts *>(new JsonDBAccounts()))
+    , banks_(dynamic_cast<DataBaseBanks *>(new JsonDBBanks()))
+    , clients_(dynamic_cast<DataBaseClients *>(new JsonDBClients()))
+    , workers_(dynamic_cast<DataBaseWorkers *>(new JsonDBWorkers()))
+    , out_(dynamic_cast<Show *>(new ConsoleShow()))
+    , in_(dynamic_cast<Get *>(new ConsoleGet())) {
   DateSetter::StartSession(system_date);
 }
 
@@ -55,7 +55,8 @@ void Executable::BankMenu() {
   if (choose == 2) {
     Bank new_bank = Builder::BuildBank(out_, in_, banks_);
     banks_->WriteBank(new_bank);
-    message = "What sudo password do you want to set? (write it without spaces)";
+    message =
+        "What sudo password do you want to set? (write it without spaces)";
     std::string bank_password;
     Builder::GetFilledString(bank_password, out_, in_, message);
     workers_->AddNewBank(new_bank.GetName(), bank_password);
@@ -78,7 +79,8 @@ void Executable::BankMenu() {
       mode_ = Mode::MainMenu;
     }
   } else if (choose == 5) {
-    system_date = std::chrono::floor<std::chrono::days>(std::chrono::system_clock::now());
+    system_date =
+        std::chrono::floor<std::chrono::days>(std::chrono::system_clock::now());
   } else {
     mode_ = Mode::Stop;
   }
@@ -86,10 +88,10 @@ void Executable::BankMenu() {
 
 void Executable::ShowExistingBanks() const {
   out_->Output("Existing banks:");
-  for (const auto& bank : banks_->GetBanks()) {
+  for (const auto &bank : banks_->GetBanks()) {
     out_->Output("- " + bank->GetName());
   }
-  if (dynamic_cast<ConsoleShow*>(out_.get()) != nullptr) {
+  if (dynamic_cast<ConsoleShow *>(out_.get()) != nullptr) {
     out_->Output("");
   }
 }
@@ -174,9 +176,15 @@ void Executable::VisitorSession() {
       } else if (choose == 2) {
         visitor_->ChangePassportData(out_, in_);
       } else if (choose == 3) {
-        if (!visitor_->OpenAccount(out_, in_, bank_->GetCreditLimit(),
-                                   bank_->GetBankFee(), accounts_, bank_->GetAccountID(), system_date)) {
-          out_->Output("Something went wrong! Probably you didn't confirmed you profile.");
+        if (!visitor_->OpenAccount(out_,
+                                   in_,
+                                   bank_->GetCreditLimit(),
+                                   bank_->GetBankFee(),
+                                   accounts_,
+                                   bank_->GetAccountID(),
+                                   system_date)) {
+          out_->Output("Something went wrong! Probably you didn't confirmed "
+                       "you profile.");
         }
       } else if (choose == 4) {
         ShowAccounts(visitor_->GetID());
@@ -191,17 +199,19 @@ void Executable::VisitorSession() {
 
 void Executable::ShowAccounts(size_t client_id) const {
   auto accounts = accounts_->GetUserAccounts(bank_name_, client_id);
-  for (const auto& account : accounts) {
+  for (const auto &account : accounts) {
     std::string acc_type = " ( ";
     if (account->GetType() == Account::Type::Credit) {
-      acc_type += "Credit account (minimum is " + bank_->GetCreditLimit().toString() + ") )";
+      acc_type += "Credit account (minimum is " +
+                  bank_->GetCreditLimit().toString() + ") )";
     } else if (account->GetType() == Account::Type::Deposit) {
       acc_type += "Deposit account )";
     } else {
       acc_type += "Debit account )";
     }
-    std::string acc_info = "Id: " + std::to_string(account->GetAccountId())
-        + "    Money: " + account->GetBalance().toString() + acc_type;
+    std::string acc_info = "Id: " + std::to_string(account->GetAccountId()) +
+                           "    Money: " + account->GetBalance().toString() +
+                           acc_type;
     out_->Output(acc_info);
   }
 }
@@ -242,11 +252,13 @@ void Executable::MakeTransaction() {
                                         static_cast<size_t>(cl_id_2),
                                         static_cast<size_t>(acc_id_2),
                                         money,
-                                        accounts_, system_date);
+                                        accounts_,
+                                        system_date);
   if (done) {
     out_->Output("Everything is ok!");
   } else {
-    out_->Output("Something went wrong, please report to the administrator or try again.");
+    out_->Output("Something went wrong, please report to the administrator or "
+                 "try again.");
   }
   mode_ = Mode::VisitorSession;
 }
@@ -299,13 +311,20 @@ void Executable::WorkerSession() {
           int64_t id = in_->InputNumber();
           if (id != -1) {
             if (worker_visitor_->BlockUser(id, clients_, system_date)) {
-              out_->Output("User " + std::to_string(id) + " was blocked by you");
+              out_->Output("User " + std::to_string(id) +
+                           " was blocked by you");
             } else {
               out_->Output("Something went wrong!");
             }
           }
         }
-        visitor_->OpenAccount(out_, in_, bank_->GetCreditLimit(), bank_->GetBankFee(), accounts_, bank_->GetAccountID(), system_date);
+        visitor_->OpenAccount(out_,
+                              in_,
+                              bank_->GetCreditLimit(),
+                              bank_->GetBankFee(),
+                              accounts_,
+                              bank_->GetAccountID(),
+                              system_date);
       } else if (choose == 4) {
         {
           std::string user_delete_id = "Enter user id (enter -1 to return): ";
@@ -313,7 +332,8 @@ void Executable::WorkerSession() {
           int64_t id = in_->InputNumber();
           if (id != -1) {
             if (worker_visitor_->RestoreUser(id, clients_, system_date)) {
-              out_->Output("User " + std::to_string(id) + " was restored by you");
+              out_->Output("User " + std::to_string(id) +
+                           " was restored by you");
             } else {
               out_->Output("Something went wrong!");
             }
@@ -361,13 +381,18 @@ void Executable::CancelTransaction() {
     return;
   }
 
-  bool done = worker_visitor_->CancelTransaction(static_cast<size_t>(cl_id_1), static_cast<size_t>(acc_id_1),
-                                                 static_cast<size_t>(cl_id_2), static_cast<size_t>(acc_id_2),
-                                                 money, accounts_, system_date);
+  bool done = worker_visitor_->CancelTransaction(static_cast<size_t>(cl_id_1),
+                                                 static_cast<size_t>(acc_id_1),
+                                                 static_cast<size_t>(cl_id_2),
+                                                 static_cast<size_t>(acc_id_2),
+                                                 money,
+                                                 accounts_,
+                                                 system_date);
   if (done) {
     out_->Output("Everything is ok!");
   } else {
-    out_->Output("Something went wrong, please report to the administrator or try again.");
+    out_->Output("Something went wrong, please report to the administrator or "
+                 "try again.");
   }
   mode_ = Mode::VisitorSession;
 }

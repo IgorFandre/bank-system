@@ -6,7 +6,7 @@
 #include "../../../DataBases/JsonDataBases/JsonDBClients.h"
 
 class DBCLIENTS_TEST_CASE : public ::testing::Test {
- public:
+public:
   static std::shared_ptr<DataBaseClients> clients_bd;
   static std::string bank_name;
 

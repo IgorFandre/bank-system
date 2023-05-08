@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include "../../../Account/AccountFabric.h"
+#include <gtest/gtest.h>
 
 TEST(TEST_ACCOUNT, update_credit_1) {
   Date open{1, 1, 1}, last{2, 2, 2}, sys{2, 2, 3};
@@ -25,8 +25,7 @@ TEST(TEST_ACCOUNT, update_debit) {
 }
 
 TEST(TEST_ACCOUNT, update_deposit) {
-  Date open{1, 1, 1}, last{2, 2, 2},
-        finish{10, 1, 1}, sys{2, 2, 3};
+  Date open{1, 1, 1}, last{2, 2, 2}, finish{10, 1, 1}, sys{2, 2, 3};
   DepositAccount acc{1, 100, finish, open, last};
   acc.Update(sys);
   ASSERT_EQ(acc.GetLastUsageDate(), sys);
@@ -69,8 +68,7 @@ TEST(TEST_ACCOUNT, transaction_debit) {
 }
 
 TEST(TEST_ACCOUNT, transaction_deposit) {
-  Date open{1, 1, 1}, last{2, 2, 2},
-      finish{10, 1, 1}, sys{2, 2, 3};
+  Date open{1, 1, 1}, last{2, 2, 2}, finish{10, 1, 1}, sys{2, 2, 3};
   DepositAccount acc{1, 100, finish, open, last};
   acc.Update(sys);
   ASSERT_EQ(acc.GetLastUsageDate(), sys);

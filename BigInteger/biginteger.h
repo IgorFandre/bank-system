@@ -7,25 +7,24 @@
 #include <vector>
 
 class BigInteger {
-  friend std::ostream& operator<<(std::ostream&, const BigInteger&);
- public:
+  friend std::ostream &operator<<(std::ostream &, const BigInteger &);
+
+public:
   enum class Sign {
     Minus = -1,
     Zero = 0,
     Plus = 1,
   };
 
-  Sign GetSign() const {
-    return sign_;
-  }
+  Sign GetSign() const { return sign_; }
 
   BigInteger() : sign_{Sign::Zero} {}
   explicit BigInteger(std::string);
   BigInteger(int64_t);
   BigInteger(size_t, bool);
   BigInteger(size_t, char);
-  BigInteger(const BigInteger&);
-  BigInteger(const std::vector<int64_t>&, Sign);
+  BigInteger(const BigInteger &);
+  BigInteger(const std::vector<int64_t> &, Sign);
 
   explicit operator int() const;
   explicit operator bool() const;
@@ -33,18 +32,18 @@ class BigInteger {
 
   BigInteger operator-() const;
 
-  BigInteger& operator=(const BigInteger&) = default;
-  friend bool operator<(const BigInteger&, const BigInteger&);
+  BigInteger &operator=(const BigInteger &) = default;
+  friend bool operator<(const BigInteger &, const BigInteger &);
 
-  BigInteger& operator+=(const BigInteger&);
-  BigInteger& operator-=(const BigInteger&);
-  BigInteger& operator*=(const BigInteger&);
-  BigInteger& operator/=(const BigInteger&);
-  BigInteger& operator%=(const BigInteger&);
-  BigInteger& operator++();
+  BigInteger &operator+=(const BigInteger &);
+  BigInteger &operator-=(const BigInteger &);
+  BigInteger &operator*=(const BigInteger &);
+  BigInteger &operator/=(const BigInteger &);
+  BigInteger &operator%=(const BigInteger &);
+  BigInteger &operator++();
   BigInteger operator++(int);
   BigInteger operator--(int);
-  BigInteger& operator--();
+  BigInteger &operator--();
   std::string toString() const;
   void Abs();
   void AddZeros(size_t);
@@ -52,11 +51,12 @@ class BigInteger {
 
   static int GetBaseSymbols() { return kBaseSymbols; }
   static int64_t GetBase() { return kBase; }
- private:
-  bool AbsLess(const BigInteger&) const;
+
+private:
+  bool AbsLess(const BigInteger &) const;
   void Clear();
-  void Substract(const BigInteger&);
-  void Add(const BigInteger&);
+  void Substract(const BigInteger &);
+  void Add(const BigInteger &);
   void EraseLeadZeros();
   void Divide(BigInteger, bool);
   static constexpr int64_t kBase = 1e9;
@@ -65,21 +65,21 @@ class BigInteger {
   Sign sign_;
 };
 
-BigInteger operator*(BigInteger, const BigInteger&);
-BigInteger operator+(BigInteger, const BigInteger&);
-BigInteger operator/(BigInteger, const BigInteger&);
-BigInteger operator-(BigInteger, const BigInteger&);
-BigInteger operator%(BigInteger, const BigInteger&);
+BigInteger operator*(BigInteger, const BigInteger &);
+BigInteger operator+(BigInteger, const BigInteger &);
+BigInteger operator/(BigInteger, const BigInteger &);
+BigInteger operator-(BigInteger, const BigInteger &);
+BigInteger operator%(BigInteger, const BigInteger &);
 
-bool operator!=(const BigInteger&, const BigInteger&);
-bool operator==(const BigInteger&, const BigInteger&);
-bool operator>(const BigInteger&, const BigInteger&);
-bool operator<=(const BigInteger&, const BigInteger&);
-bool operator>=(const BigInteger&, const BigInteger&);
+bool operator!=(const BigInteger &, const BigInteger &);
+bool operator==(const BigInteger &, const BigInteger &);
+bool operator>(const BigInteger &, const BigInteger &);
+bool operator<=(const BigInteger &, const BigInteger &);
+bool operator>=(const BigInteger &, const BigInteger &);
 
-BigInteger operator ""_bi(unsigned long long);
-BigInteger operator ""_bi(const char*);
+BigInteger operator""_bi(unsigned long long);
+BigInteger operator""_bi(const char *);
 
-std::istream& operator>>(std::istream&, BigInteger&);
+std::istream &operator>>(std::istream &, BigInteger &);
 
-#endif //BIGINTEGER_H_
+#endif // BIGINTEGER_H_

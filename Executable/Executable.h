@@ -3,20 +3,19 @@
 #include <typeinfo>
 
 #include "../Builder/Builder.h"
+#include "../DataBases/JsonDataBases/JsonDBAccounts.h"
+#include "../DataBases/JsonDataBases/JsonDBBanks.h"
+#include "../DataBases/JsonDataBases/JsonDBClients.h"
+#include "../DataBases/JsonDataBases/JsonDBWorkers.h"
 #include "../Date/DateSetter.h"
 #include "../IOSystem/IOInterface.h"
 #include "../IOSystem/IOIostream.h"
 #include "../Visitor/Visitor.h"
 #include "../Worker/WorkerVisitor.h"
-#include "../DataBases/JsonDataBases/JsonDBAccounts.h"
-#include "../DataBases/JsonDataBases/JsonDBBanks.h"
-#include "../DataBases/JsonDataBases/JsonDBClients.h"
-#include "../DataBases/JsonDataBases/JsonDBWorkers.h"
 
 class Executable {
 
- public:
-
+public:
   Executable();
   ~Executable();
 
@@ -31,8 +30,7 @@ class Executable {
   void CancelTransaction();
   void MakeRequest();
 
- private:
-
+private:
   enum class Mode {
     Stop = 0,
     BankMenu,

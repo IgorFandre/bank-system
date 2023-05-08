@@ -19,7 +19,8 @@ void LOGGER_TEST_CASE::TearDown() {
 }
 
 TEST_F(LOGGER_TEST_CASE, check_exeption) {
-  ASSERT_THROW(Logger("", Logger::OperationType::OpenAccount), std::invalid_argument);
+  ASSERT_THROW(Logger("", Logger::OperationType::OpenAccount),
+               std::invalid_argument);
 }
 
 TEST_F(LOGGER_TEST_CASE, worker_logs) {
@@ -30,7 +31,8 @@ TEST_F(LOGGER_TEST_CASE, worker_logs) {
 
 TEST_F(LOGGER_TEST_CASE, accounts_logs) {
   Logger log(bank_name, Logger::OperationType::OpenAccount);
-  ASSERT_EQ(log.GetWorkingFile(), "Data/" + bank_name + "/VisitorLogs/accounts_logs.txt");
+  ASSERT_EQ(log.GetWorkingFile(),
+            "Data/" + bank_name + "/VisitorLogs/accounts_logs.txt");
   ASSERT_TRUE(std::filesystem::exists(log.GetWorkingFile()));
   std::string start_message = "Types of accounts:\n"
                               "1 - Credit account\n"
@@ -45,7 +47,8 @@ TEST_F(LOGGER_TEST_CASE, accounts_logs) {
 
 TEST_F(LOGGER_TEST_CASE, transaction_logs) {
   Logger log(bank_name, Logger::OperationType::Transaction);
-  ASSERT_EQ(log.GetWorkingFile(), "Data/" + bank_name + "/VisitorLogs/transaction_logs.txt");
+  ASSERT_EQ(log.GetWorkingFile(),
+            "Data/" + bank_name + "/VisitorLogs/transaction_logs.txt");
   ASSERT_TRUE(std::filesystem::exists(log.GetWorkingFile()));
 }
 
@@ -62,6 +65,8 @@ TEST_F(LOGGER_TEST_CASE, write_logs) {
   i_file.open(log.GetWorkingFile());
   std::stringstream buffer_2;
   buffer_2 << i_file.rdbuf();
-  ASSERT_EQ(buffer_2.str(), "Worker 1 killed the visitor\nWorker 2 is eating cookies right now\n");
+  ASSERT_EQ(
+      buffer_2.str(),
+      "Worker 1 killed the visitor\nWorker 2 is eating cookies right now\n");
   i_file.close();
 }

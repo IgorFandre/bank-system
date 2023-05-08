@@ -1,8 +1,9 @@
 #include "Request.h"
 
-Request::Request(const std::string& bank_name, size_t user_id, const std::string& text)
-    : bank_name(bank_name), user_id(user_id), text(text)
-{}
+Request::Request(const std::string &bank_name,
+                 size_t user_id,
+                 const std::string &text)
+    : bank_name(bank_name), user_id(user_id), text(text) {}
 
 void Request::WriteRequest() const {
   std::string working_path = "Data/" + bank_name;
@@ -19,7 +20,7 @@ void Request::WriteRequest() const {
   f_out.close();
 }
 
-Request Request::ReadLastRequest(const std::string& bank_name) {
+Request Request::ReadLastRequest(const std::string &bank_name) {
   std::string working_path = "Data/" + bank_name + "/requests.json";
   if (!Filesystem::CheckFileForReadingJson(working_path)) {
     return Request(bank_name, 0, "");

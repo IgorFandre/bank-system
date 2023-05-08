@@ -12,7 +12,8 @@ void FILESYSTEM_TEST_CASE::TearDown() {
 }
 
 TEST_F(FILESYSTEM_TEST_CASE, check_directory) {
-  const std::string path = FILESYSTEM_TEST_CASE::testing_dir + "/testing_dir_to_check";
+  const std::string path =
+      FILESYSTEM_TEST_CASE::testing_dir + "/testing_dir_to_check";
 
   ASSERT_FALSE(std::filesystem::exists(path));
 
@@ -24,7 +25,8 @@ TEST_F(FILESYSTEM_TEST_CASE, check_directory) {
 }
 
 TEST_F(FILESYSTEM_TEST_CASE, check_file) {
-  const std::string path = FILESYSTEM_TEST_CASE::testing_dir + "/testing_file_to_check.json";
+  const std::string path =
+      FILESYSTEM_TEST_CASE::testing_dir + "/testing_file_to_check.json";
 
   ASSERT_FALSE(std::filesystem::exists(path));
 

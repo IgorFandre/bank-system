@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 
 class LOGGER_TEST_CASE : public ::testing::Test {
- public:
+public:
   static std::string bank_name;
 
   static void SetUpTestSuite();
