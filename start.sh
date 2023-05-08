@@ -13,4 +13,4 @@ mkdir -p build && cd build
 cmake .. && make
 
 cd ../bin
-chmod u+x TEST_BANK MAIN
+chmod u+x test_bank_system bank_system

@@ -124,10 +124,10 @@ set(TEST_SOURCES
         google_tests.cpp
 
 )
-add_executable(TEST_BANK ${TEST_SOURCES})
-add_dependencies(TEST_BANK executable)
+add_executable(test_bank_system ${TEST_SOURCES})
+add_dependencies(test_bank_system executable)
 target_link_libraries(
-        TEST_BANK
+        test_bank_system
         GTest::gtest
         GTest::gtest_main
         executable
@@ -137,10 +137,10 @@ target_link_libraries(
 # Executable main
 # -------------------------------------------
 
-add_executable(MAIN main.cpp)
-add_dependencies(MAIN executable)
+add_executable(bank_system main.cpp)
+add_dependencies(bank_system executable)
 target_link_libraries(
-        MAIN
+        bank_system
         executable
 )
 
@@ -149,7 +149,7 @@ target_link_libraries(
 # -------------------------------------------
 
 set(INSTALL_TARGETS
-        MAIN
+        bank_system
         executable
         json_db
         visitor
