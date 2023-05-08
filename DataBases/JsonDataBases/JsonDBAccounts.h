@@ -19,12 +19,10 @@ public:
   JsonDBAccounts(const JsonDBAccounts &) = delete;
   void operator=(const JsonDBAccounts &) = delete;
 
-  void WriteAccount(const std::string &bank_name,
-                    size_t user_id,
+  void WriteAccount(const std::string &bank_name, size_t user_id,
                     std::shared_ptr<Account> account) override;
   void
-  WriteAccounts(const std::string &bank_name,
-                size_t user_id,
+  WriteAccounts(const std::string &bank_name, size_t user_id,
                 const std::vector<std::shared_ptr<Account>> &accounts) override;
   void DeleteClientAccounts(const std::string &bank_name,
                             size_t user_id) override;

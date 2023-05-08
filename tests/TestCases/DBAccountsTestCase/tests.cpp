@@ -62,14 +62,12 @@ TEST_F(DBACCOUNT_TEST_CASE, little_performance_test) {
   size_t user_id = 100;
   size_t account_id_cnt = 1;
   for (int i = 0; i < 100; ++i) {
-    account_bd->WriteAccount(bank_name,
-                             user_id,
+    account_bd->WriteAccount(bank_name, user_id,
                              std::shared_ptr<Account>(new DebitAccount(
                                  i + 1, 1000 + i, open, last)));
   }
   for (int i = 0; i < 1000; ++i) {
-    account_bd->WriteAccount(bank_name,
-                             user_id + i,
+    account_bd->WriteAccount(bank_name, user_id + i,
                              std::shared_ptr<Account>(new DepositAccount(
                                  1000 + i + 1, 1000 + i, finish, open, last)));
   }

@@ -15,11 +15,8 @@ public:
     Debit,
   };
 
-  explicit Account(size_t id,
-                   const BigInteger &money,
-                   Type type,
-                   Date open_date,
-                   Date last_date);
+  explicit Account(size_t id, const BigInteger &money, Type type,
+                   Date open_date, Date last_date);
   Account(const Account &) = default;
   virtual ~Account() = default;
 

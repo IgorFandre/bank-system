@@ -1,7 +1,6 @@
 #include "Request.h"
 
-Request::Request(const std::string &bank_name,
-                 size_t user_id,
+Request::Request(const std::string &bank_name, size_t user_id,
                  const std::string &text)
     : bank_name(bank_name), user_id(user_id), text(text) {}
 

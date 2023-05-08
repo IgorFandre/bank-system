@@ -8,11 +8,10 @@ std::string JsonDBClients::GetClientsFileName(size_t id) {
 void JsonDBClients::WriteClient(const std::string &bank_name,
                                 const Client &client) {
   const Passport *passport = client.GetPassport();
-  json passport_info = json::array({passport->GetNumber(),
-                                    passport->GetSeries(),
-                                    passport->GetName(),
-                                    passport->GerSurname(),
-                                    passport->GetAddress()});
+  json passport_info = json::array(
+      {passport->GetNumber(), passport->GetSeries(),
+       passport->GetName(), passport->GerSurname(),
+       passport->GetAddress()});
 
   /*      Passport's indexes in json:
    *
@@ -24,10 +23,8 @@ void JsonDBClients::WriteClient(const std::string &bank_name,
    *
    */
 
-  json client_info = json::array({client.GetID(),
-                                  client.GetPassword(),
-                                  client.GetStatus(),
-                                  passport_info});
+  json client_info = json::array({client.GetID(), client.GetPassword(),
+                                  client.GetStatus(), passport_info});
 
   /*      Client's indexes in json:
    *
@@ -114,11 +111,8 @@ std::shared_ptr<Client> JsonDBClients::GetClient(const std::string &bank_name,
   f_in.close();
   for (size_t i = 0; i < clients.size(); ++i) {
     if (clients[i][0] == user_id) {
-      Passport pass(clients[i][3][0],
-                    clients[i][3][1],
-                    clients[i][3][2],
-                    clients[i][3][3],
-                    clients[i][3][4]);
+      Passport pass(clients[i][3][0], clients[i][3][1], clients[i][3][2],
+                    clients[i][3][3], clients[i][3][4]);
       return std::make_shared<Client>(user_id, clients[i][1], pass);
     }
   }

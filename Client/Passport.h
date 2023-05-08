@@ -7,16 +7,12 @@ enum class Status { Confirmed = 1, Unconfirmed = 0, Blocked = -1 };
 struct Passport {
 public:
   Passport() : number_{-1}, series_{-1} {}
-  Passport(int number,
-           int series,
-           std::string &&name,
-           std::string &&surname,
+  Passport(int number, int series, std::string &&name, std::string &&surname,
            std::string &&address)
-      : number_{number}
-      , series_{series}
-      , name_{std::forward<std::string>(name)}
-      , surname_{std::forward<std::string>(surname)}
-      , address_{std::forward<std::string>(address)} {}
+      : number_{number}, series_{series}, name_{std::forward<std::string>(
+                                              name)},
+        surname_{std::forward<std::string>(surname)},
+        address_{std::forward<std::string>(address)} {}
   Passport(const Passport &) = default;
   Passport &operator=(const Passport &) = default;
   friend bool operator==(const Passport &, const Passport &) = default;

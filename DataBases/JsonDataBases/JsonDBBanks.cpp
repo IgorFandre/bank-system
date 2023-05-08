@@ -11,13 +11,11 @@ void JsonDBBanks::WriteBank(const Bank &bank) {
   working_path += "/bank_info.json";
   Filesystem::CheckFile(working_path);
   std::ofstream f_out(working_path);
-  json bank_info = json::array({bank.GetName(),
-                                bank.GetCreditLimit().toString(),
-                                bank.GetBankFee().toString(),
-                                bank.GetDepositPercent(),
-                                bank.GetAccountID_CONST(),
-                                bank.GetClientID_CONST(),
-                                bank.GetWorkerID_CONST()});
+  json bank_info =
+      json::array({bank.GetName(), bank.GetCreditLimit().toString(),
+                   bank.GetBankFee().toString(), bank.GetDepositPercent(),
+                   bank.GetAccountID_CONST(), bank.GetClientID_CONST(),
+                   bank.GetWorkerID_CONST()});
 
   /*      Bank information indexes in json:
    *
@@ -55,13 +53,9 @@ std::shared_ptr<Bank> JsonDBBanks::GetBank(const std::string &bank_name) {
                 << std::endl;
       return {nullptr};
     }
-    return std::make_shared<Bank>(bank_info[0],
-                                  GetBigintFromJson(bank_info[1]),
-                                  GetBigintFromJson(bank_info[2]),
-                                  bank_info[3],
-                                  bank_info[4],
-                                  bank_info[5],
-                                  bank_info[6]);
+    return std::make_shared<Bank>(bank_info[0], GetBigintFromJson(bank_info[1]),
+                                  GetBigintFromJson(bank_info[2]), bank_info[3],
+                                  bank_info[4], bank_info[5], bank_info[6]);
   }
   return {nullptr};
 }

@@ -4,11 +4,8 @@
 
 class DepositAccount : public Account {
 public:
-  DepositAccount(size_t id,
-                 const BigInteger &money,
-                 Date finish,
-                 Date open_date,
-                 Date last_date);
+  DepositAccount(size_t id, const BigInteger &money, Date finish,
+                 Date open_date, Date last_date);
   ~DepositAccount() override = default;
 
   void Update(const Date &system_date) override;

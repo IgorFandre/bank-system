@@ -10,13 +10,9 @@
 class Bank {
 public:
   Bank() = default;
-  Bank(std::string &&bank_name,
-       const BigInteger &cred_lim = 0,
-       const BigInteger &bank_fee = 0,
-       int dep_per = 0,
-       size_t acc_id = 0,
-       size_t cl_id = 0,
-       size_t w_id = 0);
+  Bank(std::string &&bank_name, const BigInteger &cred_lim = 0,
+       const BigInteger &bank_fee = 0, int dep_per = 0, size_t acc_id = 0,
+       size_t cl_id = 0, size_t w_id = 0);
 
   Bank(const Bank &bank) = default;
   Bank &operator=(const Bank &bank) = default;

@@ -12,12 +12,10 @@ public:
   DataBaseAccounts(const DataBaseAccounts &) = delete;
   void operator=(const DataBaseAccounts &) = delete;
 
-  virtual void WriteAccount(const std::string &bank_name,
-                            size_t user_id,
+  virtual void WriteAccount(const std::string &bank_name, size_t user_id,
                             std::shared_ptr<Account> account) = 0;
   virtual void
-  WriteAccounts(const std::string &bank_name,
-                size_t user_id,
+  WriteAccounts(const std::string &bank_name, size_t user_id,
                 const std::vector<std::shared_ptr<Account>> &accounts) = 0;
   virtual void DeleteClientAccounts(const std::string &bank_name,
                                     size_t user_id) = 0;

@@ -1,13 +1,12 @@
 #include "Date.h"
 
 Date::Date(int year, int month, int day)
-    : date_(std::chrono::year(year),
-            std::chrono::month(month),
+    : date_(std::chrono::year(year), std::chrono::month(month),
             std::chrono::day(day)) {}
 
 Date &Date::operator++() {
-  date_ = std::chrono::year_month_day(
-      date_.year(), date_.month(), date_.day() + std::chrono::days(1));
+  date_ = std::chrono::year_month_day(date_.year(), date_.month(),
+                                      date_.day() + std::chrono::days(1));
   return *this;
 }
 

@@ -1,7 +1,6 @@
 #include "Builder.h"
 
-void Builder::GetFilledString(std::string &to_fill,
-                              std::unique_ptr<Show> &out,
+void Builder::GetFilledString(std::string &to_fill, std::unique_ptr<Show> &out,
                               std::unique_ptr<Get> &in,
                               const std::string &message) {
   while (true) {
@@ -13,11 +12,8 @@ void Builder::GetFilledString(std::string &to_fill,
   }
 }
 
-void Builder::GetNumber(int64_t b1,
-                        int64_t b2,
-                        int64_t &num,
-                        std::unique_ptr<Show> &out,
-                        std::unique_ptr<Get> &in,
+void Builder::GetNumber(int64_t b1, int64_t b2, int64_t &num,
+                        std::unique_ptr<Show> &out, std::unique_ptr<Get> &in,
                         const std::string &message) {
   /// get number_ from [b1, b2]
   while (true) {
@@ -29,10 +25,8 @@ void Builder::GetNumber(int64_t b1,
   }
 }
 
-void Builder::GetBigInteger(const BigInteger &b1,
-                            const BigInteger &b2,
-                            BigInteger &num,
-                            std::unique_ptr<Show> &out,
+void Builder::GetBigInteger(const BigInteger &b1, const BigInteger &b2,
+                            BigInteger &num, std::unique_ptr<Show> &out,
                             std::unique_ptr<Get> &in,
                             const std::string &message) {
   /// get number_ from [b1, b2]
@@ -45,12 +39,10 @@ void Builder::GetBigInteger(const BigInteger &b1,
   }
 }
 
-std::shared_ptr<Account> Builder::BuildAccount(std::unique_ptr<Show> &out,
-                                               std::unique_ptr<Get> &in,
-                                               const Date &system_date,
-                                               size_t account_id,
-                                               const BigInteger &cred_lim,
-                                               const BigInteger &bank_fee) {
+std::shared_ptr<Account>
+Builder::BuildAccount(std::unique_ptr<Show> &out, std::unique_ptr<Get> &in,
+                      const Date &system_date, size_t account_id,
+                      const BigInteger &cred_lim, const BigInteger &bank_fee) {
   int64_t type = 0;
   {
     std::string message = "Choose the type of account you want to create:\n"
@@ -88,8 +80,7 @@ std::shared_ptr<Account> Builder::BuildAccount(std::unique_ptr<Show> &out,
   return fabric.MakeAccount(account_id, money, system_date);
 }
 
-Bank Builder::BuildBank(std::unique_ptr<Show> &out,
-                        std::unique_ptr<Get> &in,
+Bank Builder::BuildBank(std::unique_ptr<Show> &out, std::unique_ptr<Get> &in,
                         std::unique_ptr<DataBaseBanks> &banks) {
   std::string message = "What is the name of your bank?";
   std::string name;
@@ -118,8 +109,7 @@ Bank Builder::BuildBank(std::unique_ptr<Show> &out,
 }
 
 Client Builder::BuildClient(std::unique_ptr<Show> &out,
-                            std::unique_ptr<Get> &in,
-                            size_t id) {
+                            std::unique_ptr<Get> &in, size_t id) {
   Passport passport = BuildPassport(out, in);
 
   std::string password;
@@ -162,14 +152,13 @@ Passport Builder::BuildPassport(std::unique_ptr<Show> &out,
               "write 0 to skip):");
   address = in->InputString();
 
-  return {
-      number, series, std::move(name), std::move(surname), std::move(address)};
+  return {number, series, std::move(name), std::move(surname),
+          std::move(address)};
 }
 
 Request Builder::BuildRequest(std::unique_ptr<Show> &out,
                               std::unique_ptr<Get> &in,
-                              const std::string &bank_name,
-                              size_t id) {
+                              const std::string &bank_name, size_t id) {
   std::string message = "Please describe us your problem in CamelCase.";
   std::string text;
   GetFilledString(text, out, in, message);
@@ -177,8 +166,7 @@ Request Builder::BuildRequest(std::unique_ptr<Show> &out,
 }
 
 Worker Builder::BuildWorker(std::unique_ptr<Show> &out,
-                            std::unique_ptr<Get> &in,
-                            size_t id) {
+                            std::unique_ptr<Get> &in, size_t id) {
   std::string password;
   std::string message =
       "What password would you use? (without spaces).\nPlease remember it.";

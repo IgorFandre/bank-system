@@ -4,12 +4,8 @@
 
 class CreditAccount : public Account {
 public:
-  CreditAccount(size_t id,
-                const BigInteger &money,
-                const BigInteger &limit,
-                const BigInteger &fee,
-                Date open_date,
-                Date last_date);
+  CreditAccount(size_t id, const BigInteger &money, const BigInteger &limit,
+                const BigInteger &fee, Date open_date, Date last_date);
   ~CreditAccount() override = default;
 
   void Update(const Date &system_date) override;

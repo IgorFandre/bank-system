@@ -75,12 +75,8 @@ bool WorkerVisitor::RestoreUser(size_t user_id,
   return true;
 }
 bool WorkerVisitor::CancelTransaction(
-    size_t cl_id_1,
-    size_t acc_id_1,
-    size_t cl_id_2,
-    size_t acc_id_2,
-    const BigInteger &money,
-    std::unique_ptr<DataBaseAccounts> &accounts,
+    size_t cl_id_1, size_t acc_id_1, size_t cl_id_2, size_t acc_id_2,
+    const BigInteger &money, std::unique_ptr<DataBaseAccounts> &accounts,
     const Date &system_date) {
 
   Logger logger(bank_name_, Logger::OperationType::WorkerOperation);

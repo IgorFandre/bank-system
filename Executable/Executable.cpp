@@ -1,18 +1,14 @@
 #include "Executable.h"
 
 Executable::Executable()
-    : mode_(Mode::BankMenu)
-    , system_date()
-    , bank_name_()
-    , bank_(nullptr)
-    , visitor_(new Visitor())
-    , worker_visitor_(new WorkerVisitor())
-    , accounts_(dynamic_cast<DataBaseAccounts *>(new JsonDBAccounts()))
-    , banks_(dynamic_cast<DataBaseBanks *>(new JsonDBBanks()))
-    , clients_(dynamic_cast<DataBaseClients *>(new JsonDBClients()))
-    , workers_(dynamic_cast<DataBaseWorkers *>(new JsonDBWorkers()))
-    , out_(dynamic_cast<Show *>(new ConsoleShow()))
-    , in_(dynamic_cast<Get *>(new ConsoleGet())) {
+    : mode_(Mode::BankMenu), system_date(), bank_name_(), bank_(nullptr),
+      visitor_(new Visitor()), worker_visitor_(new WorkerVisitor()),
+      accounts_(dynamic_cast<DataBaseAccounts *>(new JsonDBAccounts())),
+      banks_(dynamic_cast<DataBaseBanks *>(new JsonDBBanks())),
+      clients_(dynamic_cast<DataBaseClients *>(new JsonDBClients())),
+      workers_(dynamic_cast<DataBaseWorkers *>(new JsonDBWorkers())),
+      out_(dynamic_cast<Show *>(new ConsoleShow())),
+      in_(dynamic_cast<Get *>(new ConsoleGet())) {
   DateSetter::StartSession(system_date);
 }
 
@@ -176,13 +172,9 @@ void Executable::VisitorSession() {
       } else if (choose == 2) {
         visitor_->ChangePassportData(out_, in_);
       } else if (choose == 3) {
-        if (!visitor_->OpenAccount(out_,
-                                   in_,
-                                   bank_->GetCreditLimit(),
-                                   bank_->GetBankFee(),
-                                   accounts_,
-                                   bank_->GetAccountID(),
-                                   system_date)) {
+        if (!visitor_->OpenAccount(out_, in_, bank_->GetCreditLimit(),
+                                   bank_->GetBankFee(), accounts_,
+                                   bank_->GetAccountID(), system_date)) {
           out_->Output("Something went wrong! Probably you didn't confirmed "
                        "you profile.");
         }
@@ -248,12 +240,9 @@ void Executable::MakeTransaction() {
     return;
   }
 
-  bool done = visitor_->MakeTransaction(static_cast<size_t>(acc_id_1),
-                                        static_cast<size_t>(cl_id_2),
-                                        static_cast<size_t>(acc_id_2),
-                                        money,
-                                        accounts_,
-                                        system_date);
+  bool done = visitor_->MakeTransaction(
+      static_cast<size_t>(acc_id_1), static_cast<size_t>(cl_id_2),
+      static_cast<size_t>(acc_id_2), money, accounts_, system_date);
   if (done) {
     out_->Output("Everything is ok!");
   } else {
@@ -318,13 +307,9 @@ void Executable::WorkerSession() {
             }
           }
         }
-        visitor_->OpenAccount(out_,
-                              in_,
-                              bank_->GetCreditLimit(),
-                              bank_->GetBankFee(),
-                              accounts_,
-                              bank_->GetAccountID(),
-                              system_date);
+        visitor_->OpenAccount(out_, in_, bank_->GetCreditLimit(),
+                              bank_->GetBankFee(), accounts_,
+                              bank_->GetAccountID(), system_date);
       } else if (choose == 4) {
         {
           std::string user_delete_id = "Enter user id (enter -1 to return): ";

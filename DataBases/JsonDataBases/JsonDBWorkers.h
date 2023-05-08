@@ -18,11 +18,9 @@ public:
 
   void AddNewBank(const std::string &bank_name,
                   const std::string &sudo_pas) override;
-  bool WriteWorker(const std::string &bank_name,
-                   const std::string &sudo_pas,
+  bool WriteWorker(const std::string &bank_name, const std::string &sudo_pas,
                    const Worker &worker) override;
-  bool DeleteWorker(const std::string &bank_name,
-                    const std::string &sudo_pas,
+  bool DeleteWorker(const std::string &bank_name, const std::string &sudo_pas,
                     size_t worker_id) override;
   std::shared_ptr<Worker> GetWorker(const std::string &bank_name,
                                     size_t worker_id) override;

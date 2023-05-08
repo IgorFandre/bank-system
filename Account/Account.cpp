@@ -5,11 +5,8 @@ Account::Account(size_t id,
                  Type type,
                  Date open_date,
                  Date last_date)
-    : account_id_{id}
-    , account_money_{money}
-    , open_date_{open_date}
-    , last_usage_date_{last_date}
-    , type_(type) {}
+    : account_id_{id}, account_money_{money}, open_date_{open_date},
+      last_usage_date_{last_date}, type_(type) {}
 
 void Account::Update(const Date &system_date) {
   last_usage_date_ = system_date;
