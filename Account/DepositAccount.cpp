@@ -25,5 +25,5 @@ bool DepositAccount::Transaction(const BigInteger &money,
 std::shared_ptr<Account> DepositAccount::DeepCopy() const {
   return std::shared_ptr<Account>(
       new DepositAccount(Account::account_id_, Account::account_money_,
-                            finish_date_, open_date_, last_usage_date_));
+                         finish_date_, open_date_, last_usage_date_));
 }

@@ -6,8 +6,8 @@ Client::Client()
 
 Client::Client(size_t user_id, std::string &&user_password,
                const Passport &passport)
-    : user_id_{user_id}, user_password_{user_password},
-      passport_{passport}, status_{passport.GetPassportStatus()} {}
+    : user_id_{user_id}, user_password_{user_password}, passport_{passport},
+      status_{passport.GetPassportStatus()} {}
 
 bool Client::CheckPassword(const std::string &pass) const {
   return pass == user_password_;

@@ -366,13 +366,10 @@ void Executable::CancelTransaction() {
     return;
   }
 
-  bool done = worker_visitor_->CancelTransaction(static_cast<size_t>(cl_id_1),
-                                                 static_cast<size_t>(acc_id_1),
-                                                 static_cast<size_t>(cl_id_2),
-                                                 static_cast<size_t>(acc_id_2),
-                                                 money,
-                                                 accounts_,
-                                                 system_date);
+  bool done = worker_visitor_->CancelTransaction(
+      static_cast<size_t>(cl_id_1), static_cast<size_t>(acc_id_1),
+      static_cast<size_t>(cl_id_2), static_cast<size_t>(acc_id_2), money,
+      accounts_, system_date);
   if (done) {
     out_->Output("Everything is ok!");
   } else {

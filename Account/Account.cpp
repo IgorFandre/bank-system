@@ -1,9 +1,6 @@
 #include "Account.h"
 
-Account::Account(size_t id,
-                 const BigInteger &money,
-                 Type type,
-                 Date open_date,
+Account::Account(size_t id, const BigInteger &money, Type type, Date open_date,
                  Date last_date)
     : account_id_{id}, account_money_{money}, open_date_{open_date},
       last_usage_date_{last_date}, type_(type) {}

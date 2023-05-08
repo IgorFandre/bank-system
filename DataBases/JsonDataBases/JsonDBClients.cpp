@@ -9,9 +9,8 @@ void JsonDBClients::WriteClient(const std::string &bank_name,
                                 const Client &client) {
   const Passport *passport = client.GetPassport();
   json passport_info = json::array(
-      {passport->GetNumber(), passport->GetSeries(),
-       passport->GetName(), passport->GerSurname(),
-       passport->GetAddress()});
+      {passport->GetNumber(), passport->GetSeries(), passport->GetName(),
+       passport->GerSurname(), passport->GetAddress()});
 
   /*      Passport's indexes in json:
    *

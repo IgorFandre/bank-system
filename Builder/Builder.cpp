@@ -93,8 +93,8 @@ Bank Builder::BuildBank(std::unique_ptr<Show> &out, std::unique_ptr<Get> &in,
   }
   message = "What credit limit do you want to set? (not less than 0)";
   BigInteger limit;
-  GetBigInteger(
-      0, BigInteger("1" + std::string(100, '0')), limit, out, in, message);
+  GetBigInteger(0, BigInteger("1" + std::string(100, '0')), limit, out, in,
+                message);
   limit *= -1;
 
   message = "What bank fee do you want to set? (no more than (limit / 5))";
