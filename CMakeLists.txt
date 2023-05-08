@@ -145,3 +145,31 @@ target_link_libraries(
 )
 
 # -------------------------------------------
+# Install program
+# -------------------------------------------
+
+set(INSTALL_TARGETS
+        MAIN
+        executable
+        json_db
+        visitor
+        builder
+        worker
+        bank
+        client
+        accounts
+        date
+        logger
+        request
+        bigint
+        io_system
+        filesystem
+)
+
+install(
+        TARGETS ${INSTALL_TARGETS}
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+)
+
+# -------------------------------------------
