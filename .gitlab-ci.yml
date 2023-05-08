@@ -14,10 +14,8 @@ format:
     - git clone https://github.com/Sarcasm/run-clang-format
     - cp run-clang-format/run-clang-format.py run-clang-format.py
     - rm -rf run-clang-format
-    - touch .clang-format-ignore
-    - echo "JsonParser/*" >> .clang-format-ignore
   script:
-    - python3 ./run-clang-format.py -r ./
+    - python3 ./run-clang-format.py -r --exclude ./JsonParser/json.h ./
   tags:
     - common
     - cpu
