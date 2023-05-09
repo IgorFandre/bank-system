@@ -1,0 +1,46 @@
+image: ubuntu:latest
+
+stages:
+  - format
+  - build
+  - test
+
+
+format:
+  stage: format
+  before_script:
+    - apt update
+    - apt install -y python3 git clang-format
+    - git clone https://github.com/Sarcasm/run-clang-format
+    - cp run-clang-format/run-clang-format.py run-clang-format.py
+    - rm -rf run-clang-format
+  script:
+    - python3 ./run-clang-format.py -r --exclude ./JsonParser/json.h ./
+  tags:
+    - common
+    - cpu
+
+build:
+  stage: build
+  before_script:
+    - apt update
+    - apt install -y cmake build-essential libgtest-dev
+  script:
+    - mkdir build && cd build
+    - cmake .. && make
+    - cd ..
+  artifacts:
+    paths:
+      - bin/test_bank_system
+      - lib/*
+  tags:
+    - common
+    - cpu
+
+test:
+  stage: test
+  script:
+    - bin/test_bank_system
+  tags:
+    - common
+    - cpu
