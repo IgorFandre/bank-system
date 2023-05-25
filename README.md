@@ -10,15 +10,15 @@
 
 ### Инструкция для запуска
 
-* git clone git@gitlab.akhcheck.ru:IgorFandre/banksystem.git
-* cd BankSystem
+* git clone https://github.com/IgorFandre/bank-system.git
+* cd bank-system
 * mkdir build && cd build
 * cmake .. && make
 * make install __Только если хотите скачать исполняемый файл на свой компьютер__
 * cd ../bin
 * ./bank_system
 
-#### Если не будет запускаться, то можете сначала выполнить скрипт start.sh (только для MacOS) командой
+#### Если не будет запускаться, то можете сначала выполнить скрипт start.sh (только для MacOS) командой:
 
 * bash start.sh
 
